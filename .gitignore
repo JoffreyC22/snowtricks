@@ -46,3 +46,8 @@
 
 # Embedded web-server pid file
 /.web-server-pid
+
+# Others
+/node_modules/
+/web/build/
+yarn-error.log

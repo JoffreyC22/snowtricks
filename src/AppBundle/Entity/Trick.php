@@ -35,6 +35,11 @@ class Trick
      */
     private $description;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
 
     /**
      * Get id

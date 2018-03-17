@@ -35,6 +35,17 @@ class Comment
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Trick")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $trick;
 
     /**
      * Get id

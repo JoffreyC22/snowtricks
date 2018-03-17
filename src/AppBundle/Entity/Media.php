@@ -35,6 +35,17 @@ class Media
      */
     private $type;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Trick")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $trick;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     /**
      * Get id

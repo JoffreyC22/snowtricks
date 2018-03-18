@@ -12,8 +12,12 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $tricksRepository = $em->getRepository('AppBundle:Trick');
+        $tricks = $tricksRepository->findAll();
+
         return $this->render('@App/Home/index.html.twig', array(
-            // ...
+            'tricks' => $tricks
         ));
     }
 

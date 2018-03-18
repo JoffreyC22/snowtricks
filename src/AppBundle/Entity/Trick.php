@@ -36,10 +36,21 @@ class Trick
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="trick")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="trick")
+     */
+    private $medias;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="trick")
+     */
+    private $comments;
+
 
     /**
      * Get id
@@ -121,5 +132,80 @@ class Trick
     public function getCategory()
     {
         return $this->category;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add media
+     *
+     * @param \AppBundle\Entity\Media $media
+     *
+     * @return Trick
+     */
+    public function addMedia(\AppBundle\Entity\Media $media)
+    {
+        $this->medias[] = $media;
+
+        return $this;
+    }
+
+    /**
+     * Remove media
+     *
+     * @param \AppBundle\Entity\Media $media
+     */
+    public function removeMedia(\AppBundle\Entity\Media $media)
+    {
+        $this->medias->removeElement($media);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return Trick
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

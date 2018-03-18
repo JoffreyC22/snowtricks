@@ -36,7 +36,7 @@ class Media
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Trick")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Trick", inversedBy="medias")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;

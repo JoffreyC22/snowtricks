@@ -28,6 +28,11 @@ class Category
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Trick", mappedBy="category")
+     */
+    private $tricks;
+
 
     /**
      * Get id
@@ -62,5 +67,45 @@ class Category
     {
         return $this->name;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tricks = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add trick
+     *
+     * @param \AppBundle\Entity\Trick $trick
+     *
+     * @return Category
+     */
+    public function addTrick(\AppBundle\Entity\Trick $trick)
+    {
+        $this->tricks[] = $trick;
+
+        return $this;
+    }
+
+    /**
+     * Remove trick
+     *
+     * @param \AppBundle\Entity\Trick $trick
+     */
+    public function removeTrick(\AppBundle\Entity\Trick $trick)
+    {
+        $this->tricks->removeElement($trick);
+    }
+
+    /**
+     * Get tricks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTricks()
+    {
+        return $this->tricks;
+    }
+}

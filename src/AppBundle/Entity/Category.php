@@ -86,6 +86,8 @@ class Category
     {
         $this->tricks[] = $trick;
 
+        $trick->setCategory($this);
+
         return $this;
     }
 

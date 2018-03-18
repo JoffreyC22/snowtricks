@@ -152,6 +152,8 @@ class Trick
     {
         $this->medias[] = $media;
 
+        $media->setTrick($this);
+
         return $this;
     }
 
@@ -185,6 +187,8 @@ class Trick
     public function addComment(\AppBundle\Entity\Comment $comment)
     {
         $this->comments[] = $comment;
+
+        $comment->setTrick($this);
 
         return $this;
     }

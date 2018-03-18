@@ -4,57 +4,53 @@
 
 {% block body %}
 
-<div class="site-wrapper">
-    <div class="site-wrapper-inner">
-        <div class="cover-container">
-            <div class="masthead clearfix">
-                <div class="inner">
-                    <h3 class="masthead-brand">Snowtricks</h3>
-                    {% include "navbar.html.twig" %}
+    <div class="site-wrapper">
+        <div class="site-wrapper-inner">
+            <div class="cover-container">
+                <div class="masthead clearfix">
+                    <div class="inner">
+                        <h3 class="masthead-brand">Snowtricks</h3>
+                        {% include "navbar.html.twig" %}
+                    </div>
                 </div>
-            </div>
 
-            <div class="inner cover">
-                <h1 class="cover-heading">Bienvenue sur Snowtricks</h1>
-                <p class="lead">Premier annuaire communautaire des figures de Snowboard</p>
-                <p class="lead">
-                    <a href="#" class="btn btn-lg btn-default" id="show-tricks">Voir les figures</a>
-                </p>
+                <div class="inner cover">
+                    <h1 class="cover-heading">Bienvenue sur Snowtricks</h1>
+                    <p class="lead">Premier annuaire communautaire des figures de Snowboard</p>
+                    <p class="lead">
+                        <a href="#" class="btn btn-lg btn-default" id="show-tricks">Voir les figures</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="tricks-wrapper">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Toutes les figures</h2>
+    <div class="tricks-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Toutes les figures</h2>
+                </div>
             </div>
-        </div>
-        <div class="row tricks-container">
-            {% for trick in tricks %}
-            {% if loop.index >= 10 %}
-            <div class="trick-container col-sm-6 col-md-4 hidden">
-                {% else %}
-                <div class="trick-container col-sm-6 col-md-4">
-                    {% endif %}
-                    <div class="thumbnail">
-                        {% for media in trick.getMedias() if media.type == 'image' %}
-                            {% if loop.first %}
-                                <img src="{{ media.getUrl }}" alt="Illustration du trick {{ trick.getName }}">
-                            {% endif %}
-                        {% endfor %}
-                        <div class="caption">
-                            <h3>{{ trick.getName }}</h3>
-                            <p>{{ trick.getDescription|length > 50 ? trick.getDescription|slice(0, 50) ~ '...' : trick.getDescription }}</p>
-                            <p><a href="#" class="btn btn-primary" role="button">Editer</a> <a href="#"
-                                                                                               class="btn btn-default"
-                                                                                               role="button">Supprimer</a>
-                            </p>
+            <div class="row tricks-container">
+                {% for trick in tricks %}
+                    <div class="trick-container col-sm-6 col-md-4 {{ (loop.index >= 10) ? 'hidden' : '' }}">
+                        <div class="thumbnail">
+                            {% for media in trick.getMedias() if media.type == 'image' %}
+                                {% if loop.first %}
+                                    <img src="{{ media.getUrl }}" alt="Illustration du trick {{ trick.getName }}">
+                                {% endif %}
+                            {% endfor %}
+                            <div class="caption">
+                                <h3>{{ trick.getName }}</h3>
+                                <p>{{ trick.getDescription|length > 50 ? trick.getDescription|slice(0, 50) ~ '...' : trick.getDescription }}</p>
+                                <p><a href="#" class="btn btn-primary" role="button">Editer</a> <a href="#"
+                                                                                                   class="btn btn-default"
+                                                                                                   role="button">Supprimer</a>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
                 {% endfor %}
             </div>
         </div>
@@ -65,8 +61,9 @@
         </div>
     </div>
 
-    <button id="back-top" title="Retour en haut"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></button>
+    <button id="back-top" title="Retour en haut"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+    </button>
 
     {% include "footer.html.twig" %}
 
-    {% endblock %}
+{% endblock %}

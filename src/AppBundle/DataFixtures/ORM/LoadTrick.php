@@ -14,6 +14,8 @@ class LoadTrick extends Fixture implements OrderedFixtureInterface
         foreach ($this->getData() as $data) {
             $trick = $this->getTrick($data);
 
+            $this->addReference($data['reference'], $trick);
+
             $manager->persist($trick);
         }
 
@@ -40,7 +42,8 @@ class LoadTrick extends Fixture implements OrderedFixtureInterface
         $array = [];
         for ($i = 1; $i <= 10; $i++) {
             $array[] = [
-                'name' => 'Trick'.$i,
+                'reference' => 'trick'.$i,
+                'name' => 'Trick '.$i,
                 'description' => 'Trick '.$i.' : Lorem ipsum dolor sit amet.',
                 'category' => $this->randomizeCats()
             ];

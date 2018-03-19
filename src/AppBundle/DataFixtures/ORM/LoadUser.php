@@ -18,6 +18,9 @@ class LoadUser extends Fixture implements OrderedFixtureInterface
         $user->setEmail('joffrey@yeswedev.fr');
         $user->setPassword(sha1('secret'));
         $user->setUsername('joffreyc');
+
+        $this->addReference('joffrey', $user);
+
         $manager->persist($user);
         $manager->flush();
     }

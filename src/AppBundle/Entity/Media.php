@@ -35,6 +35,17 @@ class Media
      */
     private $type;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Trick", inversedBy="medias")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $trick;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     /**
      * Get id
@@ -93,5 +104,52 @@ class Media
     {
         return $this->type;
     }
-}
 
+    /**
+     * Set trick
+     *
+     * @param \AppBundle\Entity\Trick $trick
+     *
+     * @return Media
+     */
+    public function setTrick(\AppBundle\Entity\Trick $trick)
+    {
+        $this->trick = $trick;
+
+        return $this;
+    }
+
+    /**
+     * Get trick
+     *
+     * @return \AppBundle\Entity\Trick
+     */
+    public function getTrick()
+    {
+        return $this->trick;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Media
+     */
+    public function setUser(\AppBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}

@@ -27,12 +27,9 @@ a:hover {
 html,
 body {
   height: 100%;
-  background-color: #333;
 }
 body {
   color: #fff;
-  text-align: center;
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -43,10 +40,12 @@ body {
   min-height: 100%;
   -webkit-box-shadow: inset 0 0 100px rgba(0,0,0,.5);
   box-shadow: inset 0 0 100px rgba(0,0,0,.5);
-  background: url('/snowtricks/assets/img/bkg.jpg');
+  background: url('../img/bkg.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
 }
 .site-wrapper-inner {
   display: table-cell;
@@ -121,30 +120,34 @@ body {
   font-weight: bold;
 }
 
+/*
+ * Trick wrapper
+ */
+
+.tricks-wrapper{
+  color: #333;
+  padding: 35px 0;
+}
+
+.thumbnail > img{
+  width: 100%;
+  height: 200px;
+}
 
 /*
  * Footer
  */
 
-.mastfoot {
-  color: #999; /* IE8 proofing */
-  color: rgba(255,255,255,.5);
+footer{
+  background: #333;
+  padding: 15px 0;
 }
-
-
-/*
- * Affix and center
- */
 
 @media (min-width: 768px) {
   /* Pull out the header and footer */
   .masthead {
-    position: fixed;
+    position: absolute;
     top: 0;
-  }
-  .mastfoot {
-    position: fixed;
-    bottom: 0;
   }
   /* Start the vertical centering */
   .site-wrapper-inner {
@@ -152,7 +155,6 @@ body {
   }
   /* Handle the widths */
   .masthead,
-  .mastfoot,
   .cover-container {
     width: 100%; /* Must be percentage or pixels for horizontal alignment */
   }
@@ -160,7 +162,6 @@ body {
 
 @media (min-width: 992px) {
   .masthead,
-  .mastfoot,
   .cover-container {
     width: 700px;
   }

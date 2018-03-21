@@ -50,5 +50,6 @@
 # Others
 /node_modules/
 /web/build/
+var/
 yarn-error.log
 .idea/

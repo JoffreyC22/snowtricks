@@ -35,6 +35,17 @@ class Comment
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Trick", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $trick;
 
     /**
      * Get id
@@ -93,5 +104,52 @@ class Comment
     {
         return $this->createdAt;
     }
-}
 
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Comment
+     */
+    public function setUser(\AppBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set trick
+     *
+     * @param \AppBundle\Entity\Trick $trick
+     *
+     * @return Comment
+     */
+    public function setTrick(\AppBundle\Entity\Trick $trick)
+    {
+        $this->trick = $trick;
+
+        return $this;
+    }
+
+    /**
+     * Get trick
+     *
+     * @return \AppBundle\Entity\Trick
+     */
+    public function getTrick()
+    {
+        return $this->trick;
+    }
+}

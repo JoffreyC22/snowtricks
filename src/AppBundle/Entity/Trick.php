@@ -110,6 +110,28 @@ class Trick
         return $this->description;
     }
 
+    /*
+     * Get media couverture
+     *
+     * @return string
+     */
+    public function getMediaCouverture()
+    {
+        $medias = $this->getMedias();
+        $images = [];
+        foreach ($medias as $media) {
+            if ($media->getType() == 'image') {
+                $images[] = $media;
+            }
+        }
+        if ($images[0]) {
+            $firstMedia = $images[0];
+            return $firstMedia->getUrl();
+        }
+
+        return null;
+    }
+
     /**
      * Set category
      *

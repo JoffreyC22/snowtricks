@@ -4,17 +4,16 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Service\TricksGetter;
 
 class HomeController extends Controller
 {
     /**
      * @Route("/", name="home")
      */
-    public function indexAction()
+    public function indexAction(TricksGetter $tricksGetter)
     {
-        $em = $this->getDoctrine()->getManager();
-        $tricksRepository = $em->getRepository('AppBundle:Trick');
-        $tricks = $tricksRepository->findAll();
+        $tricks = $tricksGetter->getAll();
 
         return $this->render('@App/Home/index.html.twig', array(
             'tricks' => $tricks

@@ -35,7 +35,7 @@ class LoadMedia extends Fixture implements OrderedFixtureInterface
         $array = [];
         for ($i = 1; $i <= 10; $i++) {
             $array[] = [
-                'url' => '/snowtricks/web/uploads/images/tricks/trick'.$i.'.jpg',
+                'url' => '/uploads/images/tricks/trick'.$i.'.jpg',
                 'type' => 'image',
                 'trick' => 'trick'.$i,
                 'user' => 'joffrey'

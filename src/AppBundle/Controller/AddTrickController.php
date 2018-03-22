@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 
 class AddTrickController extends Controller
 {
@@ -17,39 +18,34 @@ class AddTrickController extends Controller
      * @Route("/tricks/add", name="trickViewAdd")
      * @Method({"GET"})
      */
-    public function viewAddAction()
+    public function addAction(Request $request)
     {
-        // On crée un objet Trick
         $trick = new Trick();
 
-        // On crée le FormBuilder grâce au service form factory
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $trick);
-
-        // On ajoute les champs de l'entité que l'on veut à notre formulaire
-        $formBuilder
+        $form = $this->get('form.factory')->createBuilder(FormType::class, $trick)
             ->add('name',      TextType::class)
             ->add('description',     TextType::class)
             ->add('category',   ChoiceType::class)
             ->add('save',      SubmitType::class)
+            ->getForm()
         ;
 
-        // À partir du formBuilder, on génère le formulaire
-        $form = $formBuilder->getForm();
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
 
-        // On passe la méthode createView() du formulaire à la vue
-        // afin qu'elle puisse afficher le formulaire toute seule
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($trick);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Figure bien enregistrée.');
+
+                return $this->redirectToRoute('home');
+            }
+        }
+
         return $this->render('@App/AddTrick/view_add.html.twig', array(
             'form' => $form->createView(),
         ));
     }
-
-    /**
-     * @Route("/tricks/add", name="trickPostAdd")
-     * @Method({"POST"})
-     */
-    public function postAddAction()
-    {
-
-    }
-
 }

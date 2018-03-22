@@ -124,7 +124,7 @@ class Trick
                 $images[] = $media;
             }
         }
-        if ($images[0]) {
+        if (!empty($images)) {
             $firstMedia = $images[0];
             return $firstMedia->getUrl();
         }

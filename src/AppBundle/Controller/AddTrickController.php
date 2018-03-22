@@ -4,11 +4,11 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Entity\Trick;
+use AppBundle\Entity\Category;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -16,16 +16,20 @@ class AddTrickController extends Controller
 {
     /**
      * @Route("/tricks/add", name="trickViewAdd")
-     * @Method({"GET"})
      */
+
     public function addAction(Request $request)
     {
         $trick = new Trick();
 
         $form = $this->get('form.factory')->createBuilder(FormType::class, $trick)
-            ->add('name',      TextType::class)
-            ->add('description',     TextType::class)
-            ->add('category',   ChoiceType::class)
+            ->add('name',      TextType::class, array('required' => true))
+            ->add('description',     TextType::class, array('required' => true))
+            ->add('category',   EntityType::class, array(
+                'required' => true,
+                'class' => Category::class,
+                'choice_label' => 'name'
+            ))
             ->add('save',      SubmitType::class)
             ->getForm()
         ;

@@ -233,8 +233,6 @@ class Trick
     public function __construct()
     {
         $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->created = new \Datetime();
-        $this->updated = new \Datetime();
     }
 
     /**
@@ -316,6 +314,7 @@ class Trick
     public function onPrePersist()
     {
         $this->created = new \DateTime("now");
+        $this->updated = new \DateTime("now");
     }
 
     /**

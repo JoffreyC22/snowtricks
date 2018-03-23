@@ -9,7 +9,7 @@ use AppBundle\Service\TricksGetter;
 class HomeController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="home")
      */
     public function indexAction(TricksGetter $tricksGetter)
     {

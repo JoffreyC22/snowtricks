@@ -218,7 +218,7 @@ class Trick
     }
 
     /**
-     * Get category
+     * Get category name
      *
      * @return \AppBundle\Entity\Category
      */
@@ -226,6 +226,8 @@ class Trick
     {
         return $this->category;
     }
+
+
     /**
      * Constructor
      */

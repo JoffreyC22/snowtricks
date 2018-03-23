@@ -19,6 +19,18 @@
                     </div>
                 {% endfor %}
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="jumbotron">
+                        <h2>{{ trick.getName }}</h2>
+                        <p>{{ trick.getDescription }}</p>
+                        <p>{{ trick.category.getName }} | Posté le : {{ trick.getCreated|date('d/m/Y H:i:s') }}
+                            {% if trick.getCreated != trick.getUpdated %}
+                                | Dernière modification le : {{ trick.getUpdated|date('d/m/Y H:i:s') }}</p>
+                            {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -27,9 +27,9 @@ class AddTrickController extends Controller
                 $em->persist($trick);
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Figure bien enregistrée.');
+                $request->getSession()->getFlashBag()->add('alert-success', 'Figure bien enregistrée.');
 
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('trickViewAdd');
             }
         }
 

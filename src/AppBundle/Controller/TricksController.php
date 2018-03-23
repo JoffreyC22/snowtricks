@@ -33,7 +33,7 @@ class TricksController extends Controller
             }
         }
 
-        return $this->render('@App/Tricks/view_add.html.twig', array(
+        return $this->render('@App/Tricks/add.html.twig', array(
             'form' => $form->createView(),
         ));
     }
@@ -60,7 +60,7 @@ class TricksController extends Controller
             }
         }
 
-        return $this->render('@App/Tricks/view_edit.html.twig', array(
+        return $this->render('@App/Tricks/edit.twig', array(
             'form' => $form->createView(),
         ));
 

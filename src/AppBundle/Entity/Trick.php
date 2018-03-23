@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Trick
@@ -30,6 +31,7 @@ class Trick
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Assert\Length(min=3, minMessage="Le nom doit faire au moins {{ limit }} caractères.")
      */
     private $name;
 
@@ -37,12 +39,14 @@ class Trick
      * @var string
      *
      * @ORM\Column(name="description", type="text")
+     * @Assert\NotBlank(message="La description ne peut pas être vide.")
      */
     private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="trick")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
      */
     private $category;
 

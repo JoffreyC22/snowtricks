@@ -10,7 +10,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="trick")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TrickRepository")
- * @UniqueEntity("name")
+ * @UniqueEntity(
+ *     "name",
+ *     message="Ce nom de figure est déjà utilisé."
+ * )
  */
 class Trick
 {

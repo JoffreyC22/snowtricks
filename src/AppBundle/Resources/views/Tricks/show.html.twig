@@ -7,9 +7,17 @@
     <div class="trick-show-wrapper main-container">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-
-                </div>
+                {% for media in trick.getMedias  %}
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                        {% if media.getType == 'image' %}
+                                <img src="{{ media.getUrl }}" alt="Illustration du trick {{ trick.getName }}">
+                        {% else %}
+                                <iframe frameborder="0" style="height:200px;width:100%;" src="{{ media.getUrl }}"></iframe>
+                        {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>

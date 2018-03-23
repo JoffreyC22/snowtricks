@@ -19,11 +19,11 @@
                         <div class="thumbnail">
                             <img src="{{ trick.getMediaCouverture }}" alt="Illustration du trick {{ trick.getName }}">
                             <div class="caption">
-                                <h3>{{ trick.getName }}</h3>
+                                <h3><a class="trick-title" href="{{ path('trickViewShow', {'id': trick.getId}) }}">{{ trick.getName }}</a></h3>
                                 <p>{{ trick.getDescription|length > 50 ? trick.getDescription|slice(0, 50) ~ '...' : trick.getDescription }}</p>
-                                <p><a href="{{ path('trickViewEdit', {'id': trick.getId}) }}" class="btn btn-primary" role="button">Editer</a> <a href="#"
-                                                                                                   class="btn btn-default"
-                                                                                                   role="button">Supprimer</a>
+                                <p>
+                                    <a href="{{ path('trickViewEdit', {'id': trick.getId}) }}" class="btn btn-primary" role="button">Editer</a>
+                                    <a href="#" class="btn btn-default" role="button">Supprimer</a>
                                 </p>
                             </div>
                         </div>

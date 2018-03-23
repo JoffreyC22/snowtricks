@@ -73,7 +73,7 @@ class TricksController extends Controller
     {
         $trick = $tricksGetter->getById($id);
 
-        return $this->render('@App/Tricks/show.twig', array(
+        return $this->render('@App/Tricks/show.html.twig', array(
             'trick' => $trick,
         ));
 

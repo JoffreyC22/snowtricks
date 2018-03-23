@@ -185,7 +185,6 @@ class Trick
     /*
      * Get media couverture
      *
-     * @return string
      */
     public function getMediaCouverture()
     {
@@ -201,7 +200,7 @@ class Trick
             return $firstMedia->getUrl();
         }
 
-        return null;
+        return 'http://via.placeholder.com/1920x485';
     }
 
     /**

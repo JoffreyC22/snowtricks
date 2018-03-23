@@ -60,8 +60,21 @@ class TricksController extends Controller
             }
         }
 
-        return $this->render('@App/Tricks/edit.twig', array(
+        return $this->render('@App/Tricks/edit.html.twig', array(
             'form' => $form->createView(),
+        ));
+
+    }
+
+    /**
+     * @Route("/tricks/{id}", name="trickViewShow")
+     */
+    public function showAction($id, TricksGetter $tricksGetter)
+    {
+        $trick = $tricksGetter->getById($id);
+
+        return $this->render('@App/Tricks/show.twig', array(
+            'trick' => $trick,
         ));
 
     }

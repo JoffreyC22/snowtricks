@@ -31,9 +31,16 @@ class Comment
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(name="created", type="datetime")
      */
-    private $createdAt;
+    private $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated", type="datetime")
+     */
+    private $updated;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
@@ -46,6 +53,12 @@ class Comment
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
+
+    public function __construct()
+    {
+        $this->created = new \Datetime();
+        $this->updated = new \Datetime();
+    }
 
     /**
      * Get id
@@ -82,27 +95,51 @@ class Comment
     }
 
     /**
-     * Set createdAt
+     * Set created
      *
-     * @param \DateTime $createdAt
+     * @param \DateTime $created
      *
      * @return Comment
      */
-    public function setCreatedAt($createdAt)
+    public function setCreated($created)
     {
-        $this->createdAt = $createdAt;
+        $this->created = $created;
 
         return $this;
     }
 
     /**
-     * Get createdAt
+     * Get created
      *
      * @return \DateTime
      */
-    public function getCreatedAt()
+    public function getCreated()
     {
-        return $this->createdAt;
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     *
+     * @return Comment
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 
     /**

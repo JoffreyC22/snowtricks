@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="trick")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TrickRepository")
+ * @ORM\HasLifecycleCallbacks
  * @UniqueEntity(
  *     "name",
  *     message="Ce nom de figure est déjà utilisé."
@@ -49,6 +50,20 @@ class Trick
      * @Assert\Valid()
      */
     private $category;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime")
+     */
+    private $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated", type="datetime")
+     */
+    private $updated;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="trick")
@@ -119,6 +134,54 @@ class Trick
         return $this->description;
     }
 
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return Trick
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     *
+     * @return Trick
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
     /*
      * Get media couverture
      *
@@ -170,6 +233,8 @@ class Trick
     public function __construct()
     {
         $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->created = new \Datetime();
+        $this->updated = new \Datetime();
     }
 
     /**
@@ -242,5 +307,23 @@ class Trick
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Gets triggered only on insert
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->created = new \DateTime("now");
+    }
+
+    /**
+     * Gets triggered every time on update
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->updated = new \DateTime("now");
     }
 }

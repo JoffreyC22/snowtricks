@@ -30,7 +30,9 @@ class AddTrickController extends Controller
                 'class' => Category::class,
                 'choice_label' => 'name'
             ))
-            ->add('save',      SubmitType::class)
+            ->add('save',      SubmitType::class, array(
+                'attr' => array('class' => 'btn-primary')
+            ))
             ->getForm()
         ;
 

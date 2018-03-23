@@ -21,4 +21,13 @@ class TricksGetter
 
         return $tricks;
     }
+
+    public function getById($id)
+    {
+        $em = $this->em;
+        $tricksRepository = $em->getRepository('AppBundle:Trick');
+        $trick = $tricksRepository->find($id);
+
+        return $trick;
+    }
 }

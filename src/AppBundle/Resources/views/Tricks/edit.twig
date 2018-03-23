@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %} {{ parent() }} Editer un trick{% endblock %}
+
+{% block body %}
+
+    {% include "header.html.twig" %}
+
+    <div class="trick-add-wrapper main-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Editer une figure</h2>
+                    {% for message in app.session.flashbag.get('alert-success') %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "footer.html.twig" %}
+
+{% endblock %}

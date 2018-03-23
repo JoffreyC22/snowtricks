@@ -3,12 +3,18 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Trick
  *
  * @ORM\Table(name="trick")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TrickRepository")
+ * @UniqueEntity(
+ *     "name",
+ *     message="Ce nom de figure est déjà utilisé."
+ * )
  */
 class Trick
 {
@@ -24,7 +30,8 @@ class Trick
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Assert\Length(min=3, minMessage="Le nom doit faire au moins {{ limit }} caractères.")
      */
     private $name;
 
@@ -32,12 +39,14 @@ class Trick
      * @var string
      *
      * @ORM\Column(name="description", type="text")
+     * @Assert\NotBlank(message="La description ne peut pas être vide.")
      */
     private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="trick")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
      */
     private $category;
 
@@ -124,7 +133,7 @@ class Trick
                 $images[] = $media;
             }
         }
-        if ($images[0]) {
+        if (!empty($images)) {
             $firstMedia = $images[0];
             return $firstMedia->getUrl();
         }

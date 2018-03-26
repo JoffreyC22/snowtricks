@@ -27,7 +27,9 @@ class LoadTrick extends Fixture implements OrderedFixtureInterface
         return (new Trick())
             ->setName($data['name'])
             ->setDescription($data['description'])
-            ->setCategory($this->getReference($data['category']));
+            ->setCategory($this->getReference($data['category']))
+            ->setCreated(new \DateTime('now'))
+            ->setUpdated(new \DateTime(('now')));
     }
 
     private function randomizeCats() {

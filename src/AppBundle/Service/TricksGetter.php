@@ -30,4 +30,15 @@ class TricksGetter
 
         return $trick;
     }
+
+    public function getBySlug($slug)
+    {
+        $em = $this->em;
+        $tricksRepository = $em->getRepository('AppBundle:Trick');
+        $trick = $tricksRepository->findOneBy(array(
+            'slug' => $slug
+        ));
+
+        return $trick;
+    }
 }

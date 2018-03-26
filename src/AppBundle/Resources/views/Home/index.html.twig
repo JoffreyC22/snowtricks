@@ -4,8 +4,6 @@
 
 {% block body %}
 
-    {% include "header.html.twig" %}
-
     <div class="tricks-wrapper main-container">
         <div class="container">
             <div class="row">
@@ -19,11 +17,11 @@
                         <div class="thumbnail">
                             <img src="{{ trick.getMediaCouverture }}" alt="Illustration du trick {{ trick.getName }}">
                             <div class="caption">
-                                <h3>{{ trick.getName }}</h3>
+                                <h3><a class="trick-title" href="{{ path('trickViewShow', {'slug': trick.getSlug}) }}">{{ trick.getName }}</a></h3>
                                 <p>{{ trick.getDescription|length > 50 ? trick.getDescription|slice(0, 50) ~ '...' : trick.getDescription }}</p>
-                                <p><a href="{{ path('trickViewEdit', {'id': trick.getId}) }}" class="btn btn-primary" role="button">Editer</a> <a href="#"
-                                                                                                   class="btn btn-default"
-                                                                                                   role="button">Supprimer</a>
+                                <p>
+                                    <a href="{{ path('trickViewEdit', {'slug': trick.getSlug}) }}" class="btn btn-primary" role="button">Editer</a>
+                                    <a href="#" class="btn btn-default" role="button">Supprimer</a>
                                 </p>
                             </div>
                         </div>
@@ -40,7 +38,5 @@
 
     <button id="back-top" title="Retour en haut"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
     </button>
-
-    {% include "footer.html.twig" %}
 
 {% endblock %}

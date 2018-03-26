@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block title %} {{ parent() }} Voir un trick{% endblock %}
+
+{% block body %}
+
+    <div class="trick-show-wrapper main-container">
+        <div class="container">
+            <div class="row">
+                {% for media in trick.getMedias  %}
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                        {% if media.getType == 'image' %}
+                                <img src="{{ media.getUrl }}" alt="Illustration du trick {{ trick.getName }}">
+                        {% else %}
+                                <iframe frameborder="0" style="height:200px;width:100%;" src="{{ media.getUrl }}"></iframe>
+                        {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="jumbotron">
+                        <h2>{{ trick.getName }}</h2>
+                        <p>{{ trick.getDescription }}</p>
+                        <p>{{ trick.category.getName }} | Posté le : {{ trick.getCreated|date('d/m/Y H:i:s') }}
+                            {% if trick.getCreated != trick.getUpdated %}
+                                | Dernière modification le : {{ trick.getUpdated|date('d/m/Y H:i:s') }}</p>
+                            {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,4 +1,5 @@
-<div class="site-wrapper">
+<div class="site-wrapper"
+     style="background-image: url({{ ( trick is defined ) ? trick.getMediaCouverture : asset('build/images/bkg.jpg') }})">
     <div class="site-wrapper-inner">
         <div class="cover-container">
             <div class="masthead clearfix">
@@ -7,18 +8,19 @@
                     <nav class="navbar navbar-default navbar-fixed-top">
                         <div class="container">
                             <div class="navbar-header">
-                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                        data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                                     <span class="sr-only">Toggle navigation</span>
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand" href="{{  path('home') }}">Snowtricks</a>
+                                <a class="navbar-brand" href="{{ path('home') }}">Snowtricks</a>
                             </div>
                             <div id="navbar" class="navbar-collapse collapse">
                                 <ul class="nav navbar-nav">
-                                    <li class="active"><a href="{{  path('home') }}">Accueil</a></li>
-                                    <li><a href="{{  path('trickViewAdd') }}">Ajouter un trick</a></li>
+                                    <li class="active"><a href="{{ path('home') }}">Accueil</a></li>
+                                    <li><a href="{{ path('trickViewAdd') }}">Ajouter un trick</a></li>
                                 </ul>
                                 <ul class="nav navbar-nav navbar-right">
                                     <li class="active"><a href="#">Se connecter</a></li>
@@ -31,12 +33,16 @@
             </div>
 
             <div class="inner cover">
-                <h1 class="cover-heading">Bienvenue sur Snowtricks</h1>
-                <p class="lead">Premier annuaire communautaire des figures de Snowboard</p>
-                {% if app.request.get('_route') == 'home' %}
-                    <p class="lead">
-                        <a href="#" class="btn btn-lg btn-default" id="show-tricks">Voir les figures</a>
-                    </p>
+                {% if trick is defined %}
+                    <h1 class="cover-heading">{{ trick.getName }}</h1>
+                {% else %}
+                    <h1 class="cover-heading">Bienvenue sur Snowtricks</h1>
+                    <p class="lead">Premier annuaire communautaire des figures de Snowboard</p>
+                    {% if app.request.get('_route') == 'home' %}
+                        <p class="lead">
+                            <a href="#" class="btn btn-lg btn-default" id="show-tricks">Voir les figures</a>
+                        </p>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

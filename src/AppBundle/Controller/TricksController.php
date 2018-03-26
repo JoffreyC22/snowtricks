@@ -39,11 +39,11 @@ class TricksController extends Controller
     }
 
     /**
-     * @Route("/tricks/{id}/edit", name="trickViewEdit")
+     * @Route("/tricks/{slug}/edit", name="trickViewEdit")
      */
-    public function editAction($id, TricksGetter $tricksGetter, Request $request)
+    public function editAction($slug, TricksGetter $tricksGetter, Request $request)
     {
-        $trick = $tricksGetter->getById($id);
+        $trick = $tricksGetter->getBySlug($slug);
         $form = $this->get('form.factory')->create(TrickType::class, $trick);
 
         if ($request->isMethod('POST')) {
@@ -56,12 +56,25 @@ class TricksController extends Controller
 
                 $request->getSession()->getFlashBag()->add('alert-success', 'Figure bien modifiée.');
 
-                return $this->redirectToRoute('trickViewEdit', array('id' => $trick->getId()));
+                return $this->redirectToRoute('trickViewEdit', array('slug' => $trick->getSlug()));
             }
         }
 
-        return $this->render('@App/Tricks/edit.twig', array(
+        return $this->render('@App/Tricks/edit.html.twig', array(
             'form' => $form->createView(),
+        ));
+
+    }
+
+    /**
+     * @Route("/tricks/{slug}", name="trickViewShow")
+     */
+    public function showAction($slug, TricksGetter $tricksGetter)
+    {
+        $trick = $tricksGetter->getBySlug($slug);
+
+        return $this->render('@App/Tricks/show.html.twig', array(
+            'trick' => $trick,
         ));
 
     }

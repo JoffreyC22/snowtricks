@@ -5,12 +5,15 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Entity\Traits\TimestampableTrait;
 
 /**
  * Trick
  *
  * @ORM\Table(name="trick")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TrickRepository")
+ * @ORM\HasLifecycleCallbacks
  * @UniqueEntity(
  *     "name",
  *     message="Ce nom de figure est déjà utilisé."
@@ -18,6 +21,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Trick
 {
+    use TimestampableTrait;
+
     /**
      * @var int
      *
@@ -59,6 +64,12 @@ class Trick
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="trick")
      */
     private $comments;
+
+    /**
+     * @Gedmo\Slug(fields={"name"}, updatable=false)
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
 
 
     /**
@@ -122,7 +133,6 @@ class Trick
     /*
      * Get media couverture
      *
-     * @return string
      */
     public function getMediaCouverture()
     {
@@ -138,7 +148,7 @@ class Trick
             return $firstMedia->getUrl();
         }
 
-        return null;
+        return 'http://via.placeholder.com/1920x485';
     }
 
     /**
@@ -156,7 +166,7 @@ class Trick
     }
 
     /**
-     * Get category
+     * Get category name
      *
      * @return \AppBundle\Entity\Category
      */
@@ -164,6 +174,8 @@ class Trick
     {
         return $this->category;
     }
+
+
     /**
      * Constructor
      */
@@ -242,5 +254,10 @@ class Trick
     public function getComments()
     {
         return $this->comments;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

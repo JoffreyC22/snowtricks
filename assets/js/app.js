@@ -1,4 +1,5 @@
 require('../css/app.scss');
+require('../img/bkg.jpg');
 
 var $ = require('jquery');
 // JS is equivalent to the normal "bootstrap" package

@@ -81,7 +81,7 @@ class TricksController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $comment->setUser($usersGetter->getById('27')); /* A remplacer quand le module d'auth sera fait **/
+                $comment->setUser($usersGetter->getByUsername('joffreyc')); /* A remplacer quand le module d'auth sera fait **/
                 $comment->setTrick($trick);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($comment);
@@ -97,6 +97,5 @@ class TricksController extends Controller
             'trick' => $trick,
             'form' => $form->createView()
         ));
-
     }
 }

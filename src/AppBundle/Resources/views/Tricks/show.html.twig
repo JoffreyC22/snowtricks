@@ -50,7 +50,7 @@
                         <div class="comment-container flex-container {{ (loop.index >= 10) ? 'hidden' : '' }}">
                             <img width="50" height="50" src="{{ comment.user.getPhoto }}" alt="Photo de profil de {{ comment.user.getUsername }}">
                             <div class="comment-content">
-                                <p><strong>{{ comment.user.getUsername }}</strong> | Publié le {{ comment.getCreated|date('d/m/Y H:i:s') }} {{ (comment.getCreated != comment.getUpdated) ? '(édité le : '~comment.getCreated|date('d/m/Y H:i:s')~')' : '' }}</p>
+                                <p><strong>{{ comment.user.getFirstname }} {{ comment.user.getLastname }}</strong> | Publié le {{ comment.getCreated|date('d/m/Y H:i:s') }} {{ (comment.getCreated != comment.getUpdated) ? '(édité le : '~comment.getCreated|date('d/m/Y H:i:s')~')' : '' }}</p>
                                 <p>{{ comment.getContent }}</p>
                             </div>
                         </div>

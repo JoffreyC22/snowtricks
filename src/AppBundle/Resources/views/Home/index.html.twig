@@ -26,7 +26,7 @@
                                 <p>{{ trick.getDescription|length > 50 ? trick.getDescription|slice(0, 50) ~ '...' : trick.getDescription }}</p>
                                 <p>
                                     <a href="{{ path('trickViewEdit', {'slug': trick.getSlug}) }}" class="btn btn-primary" role="button">Editer</a>
-                                    <a href="{{ path('trickDelete', {'slug': trick.getSlug}) }}" class="btn btn-default" role="button">Supprimer</a>
+                                    <a href="{{ path('trickDelete', {'slug': trick.getSlug}) }}" class="btn btn-default delete-trick" role="button">Supprimer</a>
                                 </p>
                             </div>
                         </div>

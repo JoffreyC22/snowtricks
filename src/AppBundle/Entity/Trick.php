@@ -49,7 +49,7 @@ class Trick
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="trick")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="tricks")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\Valid()
      */

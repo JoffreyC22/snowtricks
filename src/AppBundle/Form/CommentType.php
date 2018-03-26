@@ -5,13 +5,10 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Category;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class TrickType extends AbstractType
+class CommentType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -19,21 +16,12 @@ class TrickType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',      TextType::class, array(
-                'label' => 'Nom',
+            ->add('content',      TextareaType::class, array(
+                'label' => 'Votre commentaire',
                 'required' => true
-            ))
-            ->add('description',     TextareaType::class, array(
-                'required' => true
-            ))
-            ->add('category',   EntityType::class, array(
-                'label' => 'Catégorie',
-                'required' => true,
-                'class' => Category::class,
-                'choice_label' => 'name'
             ))
             ->add('save',      SubmitType::class, array(
-                'label' => 'Enregistrer la figure',
+                'label' => 'Publier le commentaire',
                 'attr' => array('class' => 'btn-primary')
             ));
     }
@@ -44,7 +32,7 @@ class TrickType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Trick'
+            'data_class' => 'AppBundle\Entity\Comment'
         ));
     }
 
@@ -53,7 +41,7 @@ class TrickType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_trick';
+        return 'appbundle_comment';
     }
 
 

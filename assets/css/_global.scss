@@ -145,6 +145,17 @@ footer{
   margin-top: 20px;
 }
 
+/** Others **/
+.trick-interact{
+  &:hover{
+    text-decoration: none;
+  }
+
+  &.trick-jumbotron{
+    color: #333;
+  }
+}
+
 
 /** Responsive **/
 

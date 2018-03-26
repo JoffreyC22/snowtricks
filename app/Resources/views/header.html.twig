@@ -34,7 +34,7 @@
 
             <div class="inner cover">
                 {% if trick is defined %}
-                    <h1 class="cover-heading">{{ trick.getName }}</h1>
+                    <h1 class="cover-heading"><a title="Editer le trick" class="trick-interact" href="{{ path('trickViewEdit', {'slug': trick.getSlug}) }}">{{ trick.getName }}</a></h1>
                 {% else %}
                     <h1 class="cover-heading">Bienvenue sur Snowtricks</h1>
                     <p class="lead">Premier annuaire communautaire des figures de Snowboard</p>

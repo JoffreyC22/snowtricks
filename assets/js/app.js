@@ -16,10 +16,11 @@ $(document).ready(function() {
         });
     }
 
-    function loadMoreTricks() {
-        $("#load-more").click(function() {
-           var tricks = $('.trick-container');
-            $(tricks).each(function() {
+    function loadMoreItems(entity) {
+        $("#load-more-"+entity).click(function() {
+           var items = $('.'+entity+'-container');
+           console.log(items);
+            $(items).each(function() {
                 if ($(this).hasClass('hidden')){
                     $(this).removeClass('hidden');
                 }
@@ -34,7 +35,8 @@ $(document).ready(function() {
 
     /** Used functions **/
     slideToTricks();
-    loadMoreTricks();
+    loadMoreItems('comment');
+    loadMoreItems('trick');
     window.onscroll = function() {scrollFunction()};
 
 });

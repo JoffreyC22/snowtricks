@@ -61,7 +61,8 @@ class Trick
     private $medias;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="trick")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="trick", fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"created" = "desc"})
      */
     private $comments;
 

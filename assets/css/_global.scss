@@ -114,6 +114,37 @@ footer{
   }
 }
 
+/**
+ * Flex tools
+ */
+.flex-container{
+  display: flex;
+}
+
+/**
+ * Comments
+ */
+.comment-container:first-of-type{
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  padding: 15px;
+}
+
+.comment-container{
+  border: 0;
+  border-bottom: 1px solid #ddd;
+  padding: 15px;
+}
+
+.comment-content{
+  margin: 0 10px 0 20px;
+  text-align: left;
+}
+
+#load-more-comment{
+  margin-top: 20px;
+}
+
 
 /** Responsive **/
 

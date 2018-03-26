@@ -39,6 +39,19 @@
                 </div>
             </div>
             <hr>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 text-center">
+                    {% for comment in trick.getComments  %}
+                        <div class="comment flex-container">
+                            <img width="50" height="50" src="{{ comment.user.getPhoto }}" alt="Photo de profil de {{ comment.user.getUsername }}">
+                            <div class="comment-content">
+                                <p><strong>{{ comment.user.getUsername }}</strong> | Publié le {{ comment.getCreated|date('d/m/Y H:i:s') }} {{ (comment.getCreated != comment.getUpdated) ? '(édité le : '~comment.getCreated|date('d/m/Y H:i:s')~')' : '' }}</p>
+                                <p>{{ comment.getContent }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 

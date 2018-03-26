@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Service\TricksGetter;
+use AppBundle\Service\UsersGetter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Trick;
@@ -70,7 +71,7 @@ class TricksController extends Controller
     /**
      * @Route("/tricks/{slug}", name="trickViewShow")
      */
-    public function showAction($slug, TricksGetter $tricksGetter, Request $request)
+    public function showAction($slug, TricksGetter $tricksGetter, UsersGetter $usersGetter, Request $request)
     {
         $trick = $tricksGetter->getBySlug($slug);
         $comment = new Comment();
@@ -80,6 +81,8 @@ class TricksController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                $comment->setUser($usersGetter->getById('27')); /* A remplacer quand le module d'auth sera fait **/
+                $comment->setTrick($trick);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($comment);
                 $em->flush();

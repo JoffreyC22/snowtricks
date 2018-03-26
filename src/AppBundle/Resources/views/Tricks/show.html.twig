@@ -36,6 +36,11 @@
             <div class="row">
                 <div class="col-md-6 col-md-offset-3 text-center">
                     {{ form(form) }}
+                    {% for message in app.session.flashbag.get('alert-success') %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
             <hr>

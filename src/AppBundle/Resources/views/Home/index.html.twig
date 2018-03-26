@@ -8,6 +8,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+                    {% for message in app.session.flashbag.get('alert-success') %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                     <h2>Toutes les figures</h2>
                 </div>
             </div>
@@ -21,7 +26,7 @@
                                 <p>{{ trick.getDescription|length > 50 ? trick.getDescription|slice(0, 50) ~ '...' : trick.getDescription }}</p>
                                 <p>
                                     <a href="{{ path('trickViewEdit', {'slug': trick.getSlug}) }}" class="btn btn-primary" role="button">Editer</a>
-                                    <a href="#" class="btn btn-default" role="button">Supprimer</a>
+                                    <a href="{{ path('trickDelete', {'slug': trick.getSlug}) }}" class="btn btn-default" role="button">Supprimer</a>
                                 </p>
                             </div>
                         </div>

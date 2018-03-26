@@ -29,6 +29,17 @@ $(document).ready(function() {
         });
     }
 
+    function confirmDelete() {
+        $('.delete-trick').click(function(e) {
+            e.preventDefault();
+            var href = $(this).attr('href');
+            var sure = confirm("Etes-vous sûr de vouloir supprimer ?");
+            if (sure) {
+                window.location.replace(href);
+            }
+        })
+    }
+
     $('#back-top').click(function() {
         scrollTopPage();
     });
@@ -37,6 +48,7 @@ $(document).ready(function() {
     slideToTricks();
     loadMoreItems('comment');
     loadMoreItems('trick');
+    confirmDelete();
     window.onscroll = function() {scrollFunction()};
 
 });

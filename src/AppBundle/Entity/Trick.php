@@ -49,19 +49,19 @@ class Trick
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="tricks")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="tricks", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\Valid()
      */
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="trick")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="trick", cascade={"remove"})
      */
     private $medias;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="trick", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="trick", fetch="EXTRA_LAZY", cascade={"remove"})
      * @ORM\OrderBy({"created" = "desc"})
      */
     private $comments;

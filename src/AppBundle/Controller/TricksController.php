@@ -6,6 +6,7 @@ use AppBundle\Service\TricksGetter;
 use AppBundle\Service\UsersGetter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Entity\Trick;
 use AppBundle\Entity\Comment;
 use AppBundle\Form\TrickType;
@@ -47,6 +48,9 @@ class TricksController extends Controller
     public function editAction($slug, TricksGetter $tricksGetter, Request $request)
     {
         $trick = $tricksGetter->getBySlug($slug);
+        if (null === $trick) {
+            throw new NotFoundHttpException("Ce trick n'existe pas.");
+        }
         $form = $this->get('form.factory')->create(TrickType::class, $trick);
 
         if ($request->isMethod('POST')) {
@@ -74,6 +78,9 @@ class TricksController extends Controller
     public function showAction($slug, TricksGetter $tricksGetter, UsersGetter $usersGetter, Request $request)
     {
         $trick = $tricksGetter->getBySlug($slug);
+        if (null === $trick) {
+            throw new NotFoundHttpException("Ce trick n'existe pas.");
+        }
         $comment = new Comment();
         $form = $this->get('form.factory')->create(CommentType::class, $comment);
 
@@ -97,5 +104,24 @@ class TricksController extends Controller
             'trick' => $trick,
             'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @Route("/tricks/{slug}/delete", name="trickDelete")
+     */
+    public function deleteAction($slug, TricksGetter $tricksGetter, Request $request)
+    {
+        $trick = $tricksGetter->getBySlug($slug);
+        if (null === $trick) {
+            throw new NotFoundHttpException("Ce trick n'existe pas.");
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($trick);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('alert-success', 'Trick bien supprimé.');
+
+        return $this->redirectToRoute('home');
     }
 }

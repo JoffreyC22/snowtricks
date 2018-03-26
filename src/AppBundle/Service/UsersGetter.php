@@ -30,4 +30,15 @@ class UsersGetter
 
         return $user;
     }
+
+    public function getByUsername($username)
+    {
+        $em = $this->em;
+        $usersRepository = $em->getRepository('AppBundle:User');
+        $user = $usersRepository->findOneBy(array(
+            'username' => $username
+        ));
+
+        return $user;
+    }
 }

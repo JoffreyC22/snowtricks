@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Traits\TimestampableTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Comment
@@ -29,18 +30,21 @@ class Comment
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     * @Assert\NotBlank(message="La contenu du commentaire ne peut pas être vide.")
      */
     private $content;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Trick", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
      */
     private $trick;
 

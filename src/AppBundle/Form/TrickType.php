@@ -9,6 +9,7 @@ use AppBundle\Entity\Category;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Form\MediaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class TrickType extends AbstractType
@@ -32,6 +33,7 @@ class TrickType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name'
             ))
+            ->add('medias',     MediaType::class)
             ->add('save',      SubmitType::class, array(
                 'label' => 'Enregistrer la figure',
                 'attr' => array('class' => 'btn-primary')

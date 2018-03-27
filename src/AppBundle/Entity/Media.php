@@ -52,6 +52,7 @@ class Media
      */
     private $user;
 
+
     /**
      * Get id
      *

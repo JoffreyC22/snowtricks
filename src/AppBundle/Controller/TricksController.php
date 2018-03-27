@@ -6,11 +6,14 @@ use AppBundle\Service\TricksGetter;
 use AppBundle\Service\UsersGetter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Entity\Trick;
+use AppBundle\Entity\Media;
 use AppBundle\Entity\Comment;
 use AppBundle\Form\TrickType;
 use AppBundle\Form\CommentType;
+use AppBundle\Service\FileUploader;
 use Symfony\Component\HttpFoundation\Request;
 
 class TricksController extends Controller
@@ -18,23 +21,38 @@ class TricksController extends Controller
     /**
      * @Route("/tricks/add", name="trickViewAdd")
      */
-    public function addAction(Request $request)
+    public function addAction(Request $request, FileUploader $fileUploader, UsersGetter $usersGetter)
     {
         $trick = new Trick();
         $form = $this->get('form.factory')->create(TrickType::class, $trick);
 
-        if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($trick);
-                $em->flush();
+            if  (!empty($trick->getMedias())) {
+                foreach ($trick->getMedias() as $image) {
+                    if ($image instanceof UploadedFile) {
+                        $imageName = $fileUploader->upload($image);
 
-                $request->getSession()->getFlashBag()->add('alert-success', 'Figure bien enregistrée.');
+                        $trick->removeMedia($image);
 
-                return $this->redirectToRoute('trickViewAdd');
+                        $mediaEntity = new Media();
+                        $mediaEntity->setUrl($imageName);
+                        $mediaEntity->setTrick($trick);
+                        $mediaEntity->setType('image');
+                        $mediaEntity->setUser($usersGetter->getByUsername('joffreyc'));
+
+                        $trick->addMedia($mediaEntity);
+                    }
+                }
             }
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($trick);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('alert-success', 'Figure bien enregistrée.');
+
+            return $this->redirectToRoute('trickViewAdd');
         }
 
         return $this->render('@App/Tricks/add.html.twig', array(

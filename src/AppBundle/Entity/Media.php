@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Media
@@ -25,6 +26,7 @@ class Media
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $url;
 
@@ -32,18 +34,21 @@ class Media
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
+     * @Assert\Choice({"image", "video"})
      */
     private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Trick", inversedBy="medias")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
      */
     private $trick;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
      */
     private $user;
 

@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class TrickType extends AbstractType
 {
@@ -32,9 +33,11 @@ class TrickType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name'
             ))
-            ->add('medias',     MediaType::class, array(
-                'required' => false,
-                'data_class' => null
+            ->add('medias',     CollectionType::class, array(
+                'entry_type' => MediaType::class,
+                'prototype' => true,
+                'allow_add' => true,
+                'mapped' => false
             ))
             ->add('save',      SubmitType::class, array(
                 'label' => 'Enregistrer la figure',

@@ -56,7 +56,7 @@ class Trick
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="trick", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="trick", cascade={"persist", "remove"})
      */
     private $medias;
 

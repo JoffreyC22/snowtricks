@@ -28,22 +28,15 @@ class TricksController extends Controller
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-            if  (!empty($trick->getMedias())) {
-                foreach ($trick->getMedias() as $image) {
-                    if ($image instanceof UploadedFile) {
-                        $imageName = $fileUploader->upload($image);
-
-                        $trick->removeMedia($image);
-
-                        $mediaEntity = new Media();
-                        $mediaEntity->setUrl($imageName);
-                        $mediaEntity->setTrick($trick);
-                        $mediaEntity->setType('image');
-                        $mediaEntity->setUser($usersGetter->getByUsername('joffreyc'));
-
-                        $trick->addMedia($mediaEntity);
-                    }
-                }
+            $files = $request->files->get('appbundle_trick')['medias'];
+            foreach ($files as $key => $file) {
+                $filename = $this->generateUniqueFilename().'.'.$file['file']->guessExtension();
+                $file['file']->move($this->getParameter('tricks_images_directory'), $filename);
+                $media = new Media();
+                $media->setUrl('uploads/images/tricks/'.$filename);
+                $media->setType('image');
+                $media->setUser($usersGetter->getByUsername('joffreyc'));
+                $trick->addMedia($media);
             }
 
             $em = $this->getDoctrine()->getManager();
@@ -141,5 +134,13 @@ class TricksController extends Controller
         $request->getSession()->getFlashBag()->add('alert-success', 'Trick bien supprimé.');
 
         return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @return string
+     */
+    private function generateUniqueFileName()
+    {
+        return md5(uniqid());
     }
 }

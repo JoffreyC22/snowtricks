@@ -18,7 +18,17 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    {{ form(form) }}
+                    {{ form_start(form) }}
+                    {{ form_row(form.name) }}
+                    <ul id="image-fields-list"
+                        data-prototype="{{ form_widget(form.medias.vars.prototype)|e }}"
+                        data-widget-tags="{{ '<li></li>'|e }}">
+                    </ul>
+                    <a href="#"
+                       class="add-another-collection-widget"
+                       data-list="#image-fields-list">Ajouter une image
+                    </a><br>
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>

@@ -30,12 +30,11 @@ class TricksController extends Controller
 
             $files = $request->files->get('appbundle_trick')['medias'];
             foreach ($files as $key => $file) {
-                $filename = $this->generateUniqueFilename().'.'.$file['file']->guessExtension();
-                $file['file']->move($this->getParameter('tricks_images_directory'), $filename);
+                $filename = $fileUploader->upload($file['file']);
                 $media = new Media();
                 $media->setUrl('uploads/images/tricks/'.$filename);
                 $media->setType('image');
-                $media->setUser($usersGetter->getByUsername('joffreyc'));
+                $media->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
                 $trick->addMedia($media);
             }
 
@@ -134,13 +133,5 @@ class TricksController extends Controller
         $request->getSession()->getFlashBag()->add('alert-success', 'Trick bien supprimé.');
 
         return $this->redirectToRoute('home');
-    }
-
-    /**
-     * @return string
-     */
-    private function generateUniqueFileName()
-    {
-        return md5(uniqid());
     }
 }

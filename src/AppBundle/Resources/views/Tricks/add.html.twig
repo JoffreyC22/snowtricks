@@ -19,15 +19,34 @@
             <div class="row">
                 <div class="col-md-6">
                     {{ form_start(form) }}
+
+                    {{ form_errors(form) }}
+
                     {{ form_row(form.name) }}
-                    <ul id="image-fields-list"
-                        data-prototype="{{ form_widget(form.medias.vars.prototype)|e }}"
-                        data-widget-tags="{{ '<li></li>'|e }}">
-                    </ul>
-                    <a href="#"
-                       class="add-another-collection-widget"
-                       data-list="#image-fields-list">Ajouter une image
-                    </a><br>
+
+                    {{ form_row(form.description) }}
+
+                    {{ form_row(form.category) }}
+
+                    <div class="form-group">
+                        {{ form_label(form.medias, "Images", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                        {{ form_errors(form.medias) }}
+                        <div class="col-sm-10">
+                            <ul id="image-fields-list"
+                                data-prototype="{{ form_widget(form.medias.vars.prototype)|e }}"
+                                data-widget-tags="{{ '<li></li>'|e }}">
+                            </ul>
+                            <a href="#"
+                               class="add-another-collection-widget"
+                               data-list="#image-fields-list">Ajouter une image
+                            </a><br>
+                        </div>
+                    </div>
+
+                    {{ form_row(form.save) }}
+
+                    {{ form_rest(form) }}
+
                     {{ form_end(form) }}
                 </div>
             </div>

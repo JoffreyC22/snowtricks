@@ -11,7 +11,7 @@
                     <div class="col-md-4">
                         <div class="thumbnail">
                             {% if media.getType == 'image' %}
-                                <img src="{{ media.getUrl }}" alt="Illustration du trick {{ trick.getName }}">
+                                <img src="/uploads/images/tricks/{{ media.getUrl }}" alt="Illustration du trick {{ trick.getName }}">
                             {% else %}
                                 <iframe frameborder="0" style="height:200px;width:100%;"
                                         src="{{ media.getUrl }}"></iframe>

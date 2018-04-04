@@ -146,7 +146,7 @@ class Trick
         }
         if (!empty($images)) {
             $firstMedia = $images[0];
-            return $firstMedia->getUrl();
+            return '/uploads/images/tricks/'.$firstMedia->getUrl();
         }
 
         return 'http://via.placeholder.com/1920x485';

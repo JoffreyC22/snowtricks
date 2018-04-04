@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Category;
+use AppBundle\Entity\Trick;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -37,7 +38,8 @@ class TrickType extends AbstractType
                 'entry_type' => MediaType::class,
                 'prototype' => true,
                 'allow_add' => true,
-                'mapped' => false
+                'mapped' => false,
+                'label' => false
             ))
             ->add('save', SubmitType::class, array(
                 'label' => 'Enregistrer la figure',
@@ -51,17 +53,7 @@ class TrickType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Trick'
+            'data_class' => Trick::class
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'appbundle_trick';
-    }
-
-
 }

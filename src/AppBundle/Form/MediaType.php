@@ -15,7 +15,7 @@ class MediaType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('file', FileType::class, [
+        $builder->add('fichier', FileType::class, [
             'required' => false,
             'mapped' => false
         ]);
@@ -30,14 +30,4 @@ class MediaType extends AbstractType
             'data_class' => Media::class,
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'appbundle_media';
-    }
-
-
 }

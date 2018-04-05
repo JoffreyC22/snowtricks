@@ -41,6 +41,19 @@
                             </a><br>
                     </div>
 
+                    <div class="form-group">
+                        {{ form_label(form.videos, "Videos") }}
+                        {{ form_errors(form.videos) }}
+                        <ul id="videos-fields-list"
+                            data-prototype="{{ form_widget(form.videos.vars.prototype)|e }}"
+                            data-widget-tags="{{ '<li></li>'|e }}">
+                        </ul>
+                        <a href="#"
+                           class="add-another-collection-widget-video"
+                           data-list="#videos-fields-list">Ajouter une vidéo
+                        </a><br>
+                    </div>
+
                     {{ form_row(form.save) }}
 
                     {{ form_rest(form) }}

@@ -41,6 +41,13 @@ class TrickType extends AbstractType
                 'mapped' => false,
                 'label' => false
             ))
+            ->add('videos', CollectionType::class, array(
+                'entry_type' => VideoType::class,
+                'prototype' => true,
+                'allow_add' => true,
+                'mapped' => false,
+                'label' => false
+            ))
             ->add('save', SubmitType::class, array(
                 'label' => 'Enregistrer la figure',
                 'attr' => array('class' => 'btn-primary')

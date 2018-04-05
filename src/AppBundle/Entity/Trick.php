@@ -61,6 +61,11 @@ class Trick
     private $images;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Video", mappedBy="trick", cascade={"persist", "remove"})
+     */
+    private $videos;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="trick", fetch="EXTRA_LAZY", cascade={"remove"})
      * @ORM\OrderBy({"created" = "desc"})
      */
@@ -213,6 +218,42 @@ class Trick
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * Add video
+     *
+     * @param \AppBundle\Entity\Video $video
+     *
+     * @return Trick
+     */
+    public function addVideo(\AppBundle\Entity\Video $video)
+    {
+        $this->videos[] = $video;
+
+        $video->setTrick($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove video
+     *
+     * @param \AppBundle\Entity\Video $video
+     */
+    public function removeVideo(\AppBundle\Entity\Video $video)
+    {
+        $this->videos->removeElement($video);
+    }
+
+    /**
+     * Get videos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVideos()
+    {
+        return $this->videos;
     }
 
     /**

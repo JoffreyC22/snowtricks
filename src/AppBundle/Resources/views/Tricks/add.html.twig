@@ -29,10 +29,10 @@
                     {{ form_row(form.category) }}
 
                     <div class="form-group">
-                        {{ form_label(form.medias, "Images") }}
-                        {{ form_errors(form.medias) }}
+                        {{ form_label(form.images, "Images") }}
+                        {{ form_errors(form.images) }}
                             <ul id="image-fields-list"
-                                data-prototype="{{ form_widget(form.medias.vars.prototype)|e }}"
+                                data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
                                 data-widget-tags="{{ '<li></li>'|e }}">
                             </ul>
                             <a href="#"

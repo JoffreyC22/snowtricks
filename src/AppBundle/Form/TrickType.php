@@ -34,8 +34,8 @@ class TrickType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name'
             ))
-            ->add('medias', CollectionType::class, array(
-                'entry_type' => MediaType::class,
+            ->add('images', CollectionType::class, array(
+                'entry_type' => ImageType::class,
                 'prototype' => true,
                 'allow_add' => true,
                 'mapped' => false,

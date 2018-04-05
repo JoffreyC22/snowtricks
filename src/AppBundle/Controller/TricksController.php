@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Entity\Trick;
-use AppBundle\Entity\Media;
+use AppBundle\Entity\Image;
 use AppBundle\Entity\Comment;
 use AppBundle\Form\TrickType;
 use AppBundle\Form\CommentType;
@@ -28,14 +28,13 @@ class TricksController extends Controller
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-            $files = $request->files->get('trick')['medias'];
+            $files = $request->files->get('trick')['images'];
             foreach ($files as $key => $file) {
                 $filename = $fileUploader->upload($file['fichier']);
-                $media = new Media();
-                $media->setUrl($filename);
-                $media->setType('image');
-                $media->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
-                $trick->addMedia($media);
+                $image = new Image();
+                $image->setUrl($filename);
+                $image->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
+                $trick->addImage($image);
             }
 
             $em = $this->getDoctrine()->getManager();

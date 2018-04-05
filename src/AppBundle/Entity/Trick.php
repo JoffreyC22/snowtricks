@@ -56,9 +56,9 @@ class Trick
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="trick", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Image", mappedBy="trick", cascade={"persist", "remove"})
      */
-    private $medias;
+    private $images;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="trick", fetch="EXTRA_LAZY", cascade={"remove"})
@@ -135,18 +135,12 @@ class Trick
      * Get media couverture
      *
      */
-    public function getMediaCouverture()
+    public function getImageCouverture()
     {
-        $medias = $this->getMedias();
-        $images = [];
-        foreach ($medias as $media) {
-            if ($media->getType() == 'image') {
-                $images[] = $media;
-            }
-        }
+        $images = $this->getImages();
         if (!empty($images)) {
-            $firstMedia = $images[0];
-            return '/uploads/images/tricks/'.$firstMedia->getUrl();
+            $firstImage = $images[0];
+            return '/uploads/images/tricks/'.$firstImage->getUrl();
         }
 
         return 'http://via.placeholder.com/1920x485';
@@ -186,39 +180,39 @@ class Trick
     }
 
     /**
-     * Add media
+     * Add image
      *
-     * @param \AppBundle\Entity\Media $media
+     * @param \AppBundle\Entity\Image $image
      *
      * @return Trick
      */
-    public function addMedia(\AppBundle\Entity\Media $media)
+    public function addImage(\AppBundle\Entity\Image $image)
     {
-        $this->medias[] = $media;
+        $this->images[] = $image;
 
-        $media->setTrick($this);
+        $image->setTrick($this);
 
         return $this;
     }
 
     /**
-     * Remove media
+     * Remove image
      *
-     * @param \AppBundle\Entity\Media $media
+     * @param \AppBundle\Entity\Image $image
      */
-    public function removeMedia(\AppBundle\Entity\Media $media)
+    public function removeImage(\AppBundle\Entity\Image $image)
     {
-        $this->medias->removeElement($media);
+        $this->images->removeElement($image);
     }
 
     /**
-     * Get medias
+     * Get images
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getMedias()
+    public function getImages()
     {
-        return $this->medias;
+        return $this->images;
     }
 
     /**

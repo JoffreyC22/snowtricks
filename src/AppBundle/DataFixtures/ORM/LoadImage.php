@@ -1,18 +1,18 @@
 <?php
-// src/AppBundle/DataFixtures/ORM/LoadMedia.php
+// src/AppBundle/DataFixtures/ORM/LoadImage.php
 
 namespace AppBundle\DataFixtures\ORM;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use AppBundle\Entity\Media;
+use AppBundle\Entity\Image;
 
-class LoadMedia extends Fixture implements OrderedFixtureInterface
+class LoadImage extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
         foreach ($this->getData() as $data) {
-            $media = $this->getMedia($data);
+            $media = $this->getImage($data);
 
             $manager->persist($media);
         }
@@ -20,11 +20,10 @@ class LoadMedia extends Fixture implements OrderedFixtureInterface
         $manager->flush();
     }
 
-    private function getMedia(array $data)
+    private function getImage(array $data)
     {
-        return (new Media())
+        return (new Image())
             ->setUrl($data['url'])
-            ->setType($data['type'])
             ->setTrick($this->getReference($data['trick']))
             ->setUser($this->getReference($data['user']));
     }
@@ -36,7 +35,6 @@ class LoadMedia extends Fixture implements OrderedFixtureInterface
         for ($i = 1; $i <= 10; $i++) {
             $array[] = [
                 'url' => 'trick'.$i.'.jpg',
-                'type' => 'image',
                 'trick' => 'trick'.$i,
                 'user' => 'joffrey'
             ];

@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Media
+ * Video
  *
- * @ORM\Table(name="media")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\MediaRepository")
+ * @ORM\Table(name="video")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\VideoRepository")
  */
-class Media
+class Video
 {
     /**
      * @var int
@@ -25,21 +25,13 @@ class Media
     /**
      * @var string
      *
-     * @ORM\Column(name="url", type="string", length=255)
+     * @ORM\Column(name="path", type="string", length=255)
      * @Assert\NotBlank()
      */
-    private $url;
+    private $path;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255)
-     * @Assert\Choice({"image", "video"})
-     */
-    private $type;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Trick", inversedBy="medias")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Trick", inversedBy="videos")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\Valid()
      */
@@ -64,59 +56,36 @@ class Media
     }
 
     /**
-     * Set url
+     * Set path
      *
-     * @param string $url
+     * @param string $path
      *
-     * @return Media
+     * @return Video
      */
-    public function setUrl($url)
+    public function setPath($path)
     {
-        $this->url = $url;
+        $this->path = $path;
 
         return $this;
     }
 
     /**
-     * Get url
+     * Get path
      *
      * @return string
      */
-    public function getUrl()
+    public function getPath()
     {
-        return $this->url;
+        return $this->path;
     }
 
-    /**
-     * Set type
-     *
-     * @param string $type
-     *
-     * @return Media
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
 
     /**
      * Set trick
      *
      * @param \AppBundle\Entity\Trick $trick
      *
-     * @return Media
+     * @return Video
      */
     public function setTrick(\AppBundle\Entity\Trick $trick)
     {
@@ -140,7 +109,7 @@ class Media
      *
      * @param \AppBundle\Entity\User $user
      *
-     * @return Media
+     * @return Video
      */
     public function setUser(\AppBundle\Entity\User $user)
     {

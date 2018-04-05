@@ -6,9 +6,9 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Media;
+use AppBundle\Entity\Image;
 
-class MediaType extends AbstractType
+class ImageType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -27,7 +27,7 @@ class MediaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Media::class,
+            'data_class' => Image::class,
         ));
     }
 }

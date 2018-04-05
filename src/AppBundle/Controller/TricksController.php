@@ -28,9 +28,9 @@ class TricksController extends Controller
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-            $files = $request->files->get('appbundle_trick')['medias'];
+            $files = $request->files->get('trick')['medias'];
             foreach ($files as $key => $file) {
-                $filename = $fileUploader->upload($file['file']);
+                $filename = $fileUploader->upload($file['fichier']);
                 $media = new Media();
                 $media->setUrl($filename);
                 $media->setType('image');

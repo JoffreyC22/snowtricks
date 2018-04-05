@@ -52,11 +52,6 @@ class Media
      */
     private $user;
 
-    /**
-     * @var File
-     */
-    private $file;
-
 
     /**
      * Get id
@@ -162,10 +157,5 @@ class Media
     public function getUser()
     {
         return $this->user;
-    }
-
-    public function getFile(): ?File
-    {
-        return $this->file;
     }
 }

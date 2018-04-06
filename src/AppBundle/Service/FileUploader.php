@@ -15,15 +15,30 @@ class FileUploader
 
     public function upload(UploadedFile $file)
     {
-        $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+        $extension = $file->guessExtension();
+        if (in_array($extension, $this->getAuthorizedTypes()) && $file->getSize() <= 50000) {
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getTargetDirectory(), $fileName);
 
-        $file->move($this->getTargetDirectory(), $fileName);
+            return $fileName;
+        }
 
-        return $fileName;
+        return;
     }
 
     public function getTargetDirectory()
     {
         return $this->targetDirectory;
+    }
+
+    private function getAuthorizedTypes()
+    {
+        $authorized = [
+            'png',
+            'jpg',
+            'jpeg'
+        ];
+
+        return $authorized;
     }
 }

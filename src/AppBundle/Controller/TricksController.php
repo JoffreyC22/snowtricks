@@ -32,10 +32,15 @@ class TricksController extends Controller
             if (!empty($files)) {
                 foreach ($files as $key => $file) {
                     $filename = $fileUploader->upload($file['fichier']);
-                    $image = new Image();
-                    $image->setUrl($filename);
-                    $image->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
-                    $trick->addImage($image);
+                    if ($filename) {
+                        $image = new Image();
+                        $image->setUrl($filename);
+                        $image->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
+                        $trick->addImage($image);
+                    } else {
+                        $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png et inférieur à 500ko.');
+                        return $this->redirectToRoute('trickViewAdd');
+                    }
                 }
             }
 

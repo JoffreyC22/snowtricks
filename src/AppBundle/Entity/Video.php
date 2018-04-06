@@ -27,6 +27,7 @@ class Video
      *
      * @ORM\Column(name="path", type="string", length=255)
      * @Assert\NotBlank()
+     * @Assert\Url()
      */
     private $path;
 

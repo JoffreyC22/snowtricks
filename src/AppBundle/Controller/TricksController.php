@@ -6,10 +6,10 @@ use AppBundle\Service\TricksGetter;
 use AppBundle\Service\UsersGetter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Entity\Trick;
 use AppBundle\Entity\Image;
+use AppBundle\Entity\Video;
 use AppBundle\Entity\Comment;
 use AppBundle\Form\TrickType;
 use AppBundle\Form\CommentType;
@@ -27,10 +27,18 @@ class TricksController extends Controller
         $form = $this->get('form.factory')->create(TrickType::class, $trick);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-
-            $files = $request->files->get('trick')['images'];
-            if (!empty($files)) {
-                foreach ($files as $key => $file) {
+            $videos = $request->request->get('trick')['videos'];
+            if (!empty($videos)) {
+                foreach ($videos as $video) {
+                    $instanceVideo = new Video();
+                    $instanceVideo->setPath($video['video']);
+                    $instanceVideo->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
+                    $trick->addVideo($instanceVideo);
+                }
+            }
+            $images = $request->files->get('trick')['images'];
+            if (!empty($images)) {
+                foreach ($images as $key => $file) {
                     $filename = $fileUploader->upload($file['fichier']);
                     if ($filename) {
                         $image = new Image();

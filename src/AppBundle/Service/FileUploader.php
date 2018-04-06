@@ -16,7 +16,7 @@ class FileUploader
     public function upload(UploadedFile $file)
     {
         $extension = $file->guessExtension();
-        if (in_array($extension, $this->getAuthorizedTypes()) && $file->getSize() <= 50000) {
+        if (in_array($extension, $this->getAuthorizedTypes())) {
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
             $file->move($this->getTargetDirectory(), $fileName);
 

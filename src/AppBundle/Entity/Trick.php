@@ -143,7 +143,7 @@ class Trick
     public function getImageCouverture()
     {
         $images = $this->getImages();
-        if (!empty($images)) {
+        if (isset($images[0])) {
             $firstImage = $images[0];
             return '/uploads/images/tricks/'.$firstImage->getUrl();
         }

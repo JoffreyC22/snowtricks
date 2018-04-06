@@ -29,12 +29,14 @@ class TricksController extends Controller
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
             $files = $request->files->get('trick')['images'];
-            foreach ($files as $key => $file) {
-                $filename = $fileUploader->upload($file['fichier']);
-                $image = new Image();
-                $image->setUrl($filename);
-                $image->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
-                $trick->addImage($image);
+            if (!empty($files)) {
+                foreach ($files as $key => $file) {
+                    $filename = $fileUploader->upload($file['fichier']);
+                    $image = new Image();
+                    $image->setUrl($filename);
+                    $image->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
+                    $trick->addImage($image);
+                }
             }
 
             $em = $this->getDoctrine()->getManager();

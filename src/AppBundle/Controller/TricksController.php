@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Service\TricksGetter;
 use AppBundle\Service\UsersGetter;
+use AppBundle\Service\ImagesGetter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -152,6 +153,28 @@ class TricksController extends Controller
         $em->flush();
 
         $request->getSession()->getFlashBag()->add('alert-success', 'Trick bien supprimé.');
+
+        return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/tricks/{slug}/images/{image_id}/delete", name="imageDelete")
+     */
+    public function deleteImageAction($slug, $image_id, imagesGetter $imagesGetter, TricksGetter $tricksGetter, Request $request)
+    {
+        $trick = $tricksGetter->getBySlug($slug);
+        $image = $imagesGetter->getById($image_id);
+        if (null === $trick ||  null === $image) {
+            throw new NotFoundHttpException("Ce trick/cette image n'existe pas.");
+        }
+
+        $trick->removeImage($image);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($image);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('alert-success', 'Image bien supprimée.');
 
         return $this->redirectToRoute('home');
     }

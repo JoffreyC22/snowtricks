@@ -99,6 +99,7 @@ class TricksController extends Controller
 
         return $this->render('@App/Tricks/edit.html.twig', array(
             'form' => $form->createView(),
+            'trick' => $trick
         ));
     }
 

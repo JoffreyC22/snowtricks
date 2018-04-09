@@ -36,8 +36,8 @@
                             data-widget-tags="{{ '<li></li>'|e }}">
                             {% for image in trick.images %}
                                 <li>
-                                    <img src="/uploads/images/tricks/{{ image.url }}" alt="">
-                                    <a href="#">Delete</a>
+                                    <img width="300" height="200" src="/uploads/images/tricks/{{ image.url }}" alt="">
+                                    <a href="#" class="delete-media">Delete</a>
                                 </li>
                             {% endfor %}
                         </ul>

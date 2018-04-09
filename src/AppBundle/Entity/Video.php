@@ -26,8 +26,9 @@ class Video
      * @var string
      *
      * @ORM\Column(name="path", type="string", length=255)
-     * @Assert\NotBlank()
-     * @Assert\Url()
+     * @Assert\Url(
+     *     protocols = {"http", "https"}
+     * )
      */
     private $path;
 

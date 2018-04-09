@@ -30,10 +30,16 @@ class TricksController extends Controller
             $videos = $request->request->get('trick')['videos'];
             if (!empty($videos)) {
                 foreach ($videos as $video) {
-                    $instanceVideo = new Video();
-                    $instanceVideo->setPath($video['video']);
-                    $instanceVideo->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
-                    $trick->addVideo($instanceVideo);
+                    $embed = $video['video'];
+                    if (filter_var($embed, FILTER_VALIDATE_URL)) {
+                        $instanceVideo = new Video();
+                        $instanceVideo->setPath($embed);
+                        $instanceVideo->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
+                        $trick->addVideo($instanceVideo);
+                    } else {
+                        $request->getSession()->getFlashBag()->add('alert-danger', 'Le lien de la vidéo n\'est pas valide.');
+                        return $this->redirectToRoute('trickViewAdd');
+                    }
                 }
             }
             $images = $request->files->get('trick')['images'];

@@ -28,33 +28,37 @@ class TricksController extends Controller
         $form = $this->get('form.factory')->create(TrickType::class, $trick);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            $videos = $request->request->get('trick')['videos'];
-            if (!empty($videos)) {
-                foreach ($videos as $video) {
-                    $embed = $video['video'];
-                    if (filter_var($embed, FILTER_VALIDATE_URL)) {
-                        $instanceVideo = new Video();
-                        $instanceVideo->setPath($embed);
-                        $instanceVideo->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
-                        $trick->addVideo($instanceVideo);
-                    } else {
-                        $request->getSession()->getFlashBag()->add('alert-danger', 'Le lien de la vidéo n\'est pas valide.');
-                        return $this->redirectToRoute('trickViewAdd');
+            if (isset($request->request->get('trick')['videos'])) { /* Traitement videos */
+                $videos = $request->request->get('trick')['videos'];
+                if (!empty($videos)) {
+                    foreach ($videos as $video) {
+                        $embed = $video['video'];
+                        if (filter_var($embed, FILTER_VALIDATE_URL)) {
+                            $instanceVideo = new Video();
+                            $instanceVideo->setPath($embed);
+                            $instanceVideo->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
+                            $trick->addVideo($instanceVideo);
+                        } else {
+                            $request->getSession()->getFlashBag()->add('alert-danger', 'Le lien de la vidéo n\'est pas valide.');
+                            return $this->redirectToRoute('trickViewAdd');
+                        }
                     }
                 }
             }
-            $images = $request->files->get('trick')['images'];
-            if (!empty($images)) {
-                foreach ($images as $key => $file) {
-                    $filename = $fileUploader->upload($file['fichier']);
-                    if ($filename) {
-                        $image = new Image();
-                        $image->setUrl($filename);
-                        $image->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
-                        $trick->addImage($image);
-                    } else {
-                        $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png et inférieur à 500ko.');
-                        return $this->redirectToRoute('trickViewAdd');
+            if (isset($request->files->get('trick')['images'])) {
+                $images = $request->files->get('trick')['images']; /* Traitement images */
+                if (!empty($images)) {
+                    foreach ($images as $key => $file) {
+                        $filename = $fileUploader->upload($file['fichier']);
+                        if ($filename) {
+                            $image = new Image();
+                            $image->setUrl($filename);
+                            $image->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
+                            $trick->addImage($image);
+                        } else {
+                            $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png et inférieur à 500ko.');
+                            return $this->redirectToRoute('trickViewAdd');
+                        }
                     }
                 }
             }

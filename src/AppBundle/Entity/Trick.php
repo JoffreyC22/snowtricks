@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Service\FileUploader;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -310,5 +311,28 @@ class Trick
         $this->slug = $slug;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PostRemove
+     */
+    public function removeUpload() {
+        $images = $this->getImages();
+        if (!empty($images) && isset($images)) {
+            foreach ($images as $image) {
+                $file_path = $this->getUploadRootDir().$image->getUrl();
+                if(file_exists($file_path)) unlink($file_path);
+            }
+        }
+    }
+
+    protected function getUploadRootDir()
+    {
+        return '/var/www/html/snowtricks/web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        return 'uploads/images/tricks/';
     }
 }

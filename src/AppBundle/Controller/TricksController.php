@@ -29,37 +29,17 @@ class TricksController extends Controller
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             if (isset($request->request->get('trick')['videos'])) { /* Traitement videos */
-                $videos = $request->request->get('trick')['videos'];
-                if (!empty($videos)) {
-                    foreach ($videos as $video) {
-                        $embed = $video['video'];
-                        if (filter_var($embed, FILTER_VALIDATE_URL)) {
-                            $instanceVideo = new Video();
-                            $instanceVideo->setPath($embed);
-                            $instanceVideo->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
-                            $trick->addVideo($instanceVideo);
-                        } else {
-                            $request->getSession()->getFlashBag()->add('alert-danger', 'Le lien de la vidéo n\'est pas valide.');
-                            return $this->redirectToRoute('trickViewAdd');
-                        }
-                    }
+                $handle = $this->handleVideos($request, $usersGetter, $trick);
+                if (!$handle){
+                    $request->getSession()->getFlashBag()->add('alert-danger', 'Le lien de la vidéo n\'est pas valide.');
+                    return $this->redirectToRoute('trickViewAdd');
                 }
             }
-            if (isset($request->files->get('trick')['images'])) {
-                $images = $request->files->get('trick')['images']; /* Traitement images */
-                if (!empty($images)) {
-                    foreach ($images as $key => $file) {
-                        $filename = $fileUploader->upload($file['fichier']);
-                        if ($filename) {
-                            $image = new Image();
-                            $image->setUrl($filename);
-                            $image->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
-                            $trick->addImage($image);
-                        } else {
-                            $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png et inférieur à 500ko.');
-                            return $this->redirectToRoute('trickViewAdd');
-                        }
-                    }
+            if (isset($request->files->get('trick')['images'])) { /* Traitement images */
+                $handle = $this->handleImages($request, $usersGetter, $fileUploader, $trick);
+                if (!$handle){
+                    $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png et inférieur à 500ko.');
+                    return $this->redirectToRoute('trickViewAdd');
                 }
             }
 
@@ -80,7 +60,7 @@ class TricksController extends Controller
     /**
      * @Route("/tricks/{slug}/edit", name="trickViewEdit")
      */
-    public function editAction($slug, TricksGetter $tricksGetter, Request $request)
+    public function editAction($slug, TricksGetter $tricksGetter, FileUploader $fileUploader, UsersGetter $usersGetter, Request $request)
     {
         $trick = $tricksGetter->getBySlug($slug);
         if (null === $trick) {
@@ -92,6 +72,21 @@ class TricksController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                if (isset($request->request->get('trick')['videos'])) { /* Traitement videos */
+                    $handle = $this->handleVideos($request, $usersGetter, $trick);
+                    if (!$handle){
+                        $request->getSession()->getFlashBag()->add('alert-danger', 'Le lien de la vidéo n\'est pas valide.');
+                        return $this->redirectToRoute('trickViewEdit', array('slug' => $trick->getSlug()));
+                    }
+                }
+                if (isset($request->files->get('trick')['images'])) { /* Traitement images */
+                    $handle = $this->handleImages($request, $usersGetter, $fileUploader, $trick);
+                    if (!$handle){
+                        $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png et inférieur à 500ko.');
+                        return $this->redirectToRoute('trickViewEdit', array('slug' => $trick->getSlug()));
+                    }
+                }
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($trick);
                 $em->flush();
@@ -180,6 +175,46 @@ class TricksController extends Controller
 
         $request->getSession()->getFlashBag()->add('alert-success', 'Image bien supprimée.');
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('trickViewEdit', array('slug' => $trick->getSlug()));
+    }
+
+    protected function handleImages(Request $request, UsersGetter $usersGetter, FileUploader $fileUploader, Trick $trick)
+    {
+        $images = $request->files->get('trick')['images']; /* Traitement images */
+        if (!empty($images)) {
+            foreach ($images as $key => $file) {
+                $filename = $fileUploader->upload($file['fichier']);
+                if ($filename) {
+                    $image = new Image();
+                    $image->setUrl($filename);
+                    $image->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
+                    $trick->addImage($image);
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    protected function handleVideos(Request $request, UsersGetter $usersGetter, Trick $trick)
+    {
+        $videos = $request->request->get('trick')['videos'];
+        if (!empty($videos)) {
+            foreach ($videos as $video) {
+                $embed = $video['video'];
+                if (filter_var($embed, FILTER_VALIDATE_URL)) {
+                    $instanceVideo = new Video();
+                    $instanceVideo->setPath($embed);
+                    $instanceVideo->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
+                    $trick->addVideo($instanceVideo);
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

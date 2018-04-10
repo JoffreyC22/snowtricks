@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="image")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ImageRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Image
 {
@@ -126,5 +127,23 @@ class Image
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @ORM\PostRemove
+     */
+    public function removeUpload() {
+        $file_path = $this->getUploadRootDir().$this->getUrl();
+        if(file_exists($file_path)) unlink($file_path);
+    }
+
+    protected function getUploadRootDir()
+    {
+        return '/var/www/html/snowtricks/web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        return 'uploads/images/tricks/';
     }
 }

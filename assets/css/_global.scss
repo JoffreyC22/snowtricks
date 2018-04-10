@@ -171,8 +171,16 @@ footer{
   }
 }
 
+.image-edit{
+  max-height: 175px;
+}
+
 #image-fields-list{
   list-style-type: none;
+  display:flex;
+  li{
+    padding: 10px;
+  }
 }
 
 

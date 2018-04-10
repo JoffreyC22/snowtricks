@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     {{ form_start(form) }}
 
                     {{ form_errors(form) }}
@@ -36,7 +36,7 @@
                             data-widget-tags="{{ '<li></li>'|e }}">
                             {% for image in trick.images %}
                                 <li>
-                                    <img class="img-responsive" src="/uploads/images/tricks/{{ image.url }}" alt="Illustration du trick {{ trick.name }}">
+                                    <img class="image-edit img-responsive" src="/uploads/images/tricks/{{ image.url }}" alt="Illustration du trick {{ trick.name }}">
                                     <a href="{{ path('imageDelete', {'slug': trick.getSlug, 'image_id': image.id}) }}" class="delete-media">Supprimer</a>
                                 </li>
                             {% endfor %}

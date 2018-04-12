@@ -68,10 +68,7 @@ class TricksController extends Controller
         }
         $form = $this->get('form.factory')->create(TrickType::class, $trick);
 
-        if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
                 if (isset($request->request->get('trick')['videos'])) { /* Traitement videos */
                     $handle = HandleMedias::handleVideos($request, $usersGetter, $trick);
                     if (!$handle){
@@ -94,7 +91,6 @@ class TricksController extends Controller
                 $request->getSession()->getFlashBag()->add('alert-success', 'Figure bien modifiée.');
 
                 return $this->redirectToRoute('trickViewEdit', array('slug' => $trick->getSlug()));
-            }
         }
 
         return $this->render('@App/Tricks/edit.html.twig', array(

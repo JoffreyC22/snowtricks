@@ -38,7 +38,7 @@ class TricksController extends Controller
             if (isset($request->files->get('trick')['images'])) { /* Traitement images */
                 $handle = HandleMedias::handleImages($request, $usersGetter, $fileUploader, $trick);
                 if (!$handle){
-                    $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png et inférieur à 500ko.');
+                    $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png.');
                     return $this->redirectToRoute('trickViewAdd');
                 }
             }
@@ -82,7 +82,7 @@ class TricksController extends Controller
                 if (isset($request->files->get('trick')['images'])) { /* Traitement images */
                     $handle = HandleMedias::handleImages($request, $usersGetter, $fileUploader, $trick);
                     if (!$handle){
-                        $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png et inférieur à 500ko.');
+                        $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png.');
                         return $this->redirectToRoute('trickViewEdit', array('slug' => $trick->getSlug()));
                     }
                 }

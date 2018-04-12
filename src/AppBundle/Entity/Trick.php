@@ -312,27 +312,4 @@ class Trick
 
         return $this;
     }
-
-    /**
-     * @ORM\PostRemove
-     */
-    public function removeUpload() {
-        $images = $this->getImages();
-        if (!empty($images) && isset($images)) {
-            foreach ($images as $image) {
-                $file_path = $this->getUploadRootDir().$image->getUrl();
-                if(file_exists($file_path)) unlink($file_path);
-            }
-        }
-    }
-
-    protected function getUploadRootDir()
-    {
-        return '/var/www/html/snowtricks/web/'.$this->getUploadDir();
-    }
-
-    protected function getUploadDir()
-    {
-        return 'uploads/images/tricks/';
-    }
 }

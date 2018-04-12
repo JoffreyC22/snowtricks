@@ -5,13 +5,12 @@ namespace AppBundle\Controller;
 use AppBundle\Service\TricksGetter;
 use AppBundle\Service\UsersGetter;
 use AppBundle\Service\ImagesGetter;
+use AppBundle\Service\VideosGetter;
 use AppBundle\Service\HandleMedias;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Entity\Trick;
-use AppBundle\Entity\Image;
-use AppBundle\Entity\Video;
 use AppBundle\Entity\Comment;
 use AppBundle\Form\TrickType;
 use AppBundle\Form\CommentType;
@@ -158,23 +157,32 @@ class TricksController extends Controller
     }
 
     /**
-     * @Route("/tricks/{slug}/images/{image_id}/delete", name="imageDelete")
+     * @Route("/tricks/{slug}/medias/{type}/{media_id}/delete", name="mediaDelete")
      */
-    public function deleteImageAction($slug, $image_id, imagesGetter $imagesGetter, TricksGetter $tricksGetter, Request $request)
+    public function deleteMediaAction($slug, $type, $media_id, imagesGetter $imagesGetter, videosGetter $videosGetter, TricksGetter $tricksGetter, Request $request)
     {
         $trick = $tricksGetter->getBySlug($slug);
-        $image = $imagesGetter->getById($image_id);
-        if (null === $trick ||  null === $image) {
-            throw new NotFoundHttpException("Ce trick/cette image n'existe pas.");
+        if ($type == 'image') {
+            $media = $imagesGetter->getById($media_id);
+        } else {
+            $media = $videosGetter->getById($media_id);
         }
 
-        $trick->removeImage($image);
+        if (null === $trick ||  null === $media) {
+            throw new NotFoundHttpException("Ce trick/ce média n'existe pas.");
+        }
+
+        if ($type == 'image') {
+            $trick->removeImage($media);
+        } else {
+            $trick->removeVideo($media);
+        }
 
         $em = $this->getDoctrine()->getManager();
-        $em->remove($image);
+        $em->remove($media);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('alert-success', 'Image bien supprimée.');
+        $request->getSession()->getFlashBag()->add('alert-success', 'Média bien supprimé.');
 
         return $this->redirectToRoute('trickViewEdit', array('slug' => $trick->getSlug()));
     }

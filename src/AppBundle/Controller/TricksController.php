@@ -5,12 +5,12 @@ namespace AppBundle\Controller;
 use AppBundle\Service\TricksGetter;
 use AppBundle\Service\UsersGetter;
 use AppBundle\Service\ImagesGetter;
+use AppBundle\Service\VideosGetter;
+use AppBundle\Service\HandleMedias;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Entity\Trick;
-use AppBundle\Entity\Image;
-use AppBundle\Entity\Video;
 use AppBundle\Entity\Comment;
 use AppBundle\Form\TrickType;
 use AppBundle\Form\CommentType;
@@ -28,34 +28,18 @@ class TricksController extends Controller
         $form = $this->get('form.factory')->create(TrickType::class, $trick);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            $videos = $request->request->get('trick')['videos'];
-            if (!empty($videos)) {
-                foreach ($videos as $video) {
-                    $embed = $video['video'];
-                    if (filter_var($embed, FILTER_VALIDATE_URL)) {
-                        $instanceVideo = new Video();
-                        $instanceVideo->setPath($embed);
-                        $instanceVideo->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
-                        $trick->addVideo($instanceVideo);
-                    } else {
-                        $request->getSession()->getFlashBag()->add('alert-danger', 'Le lien de la vidéo n\'est pas valide.');
-                        return $this->redirectToRoute('trickViewAdd');
-                    }
+            if (isset($request->request->get('trick')['videos'])) { /* Traitement videos */
+                $handle = HandleMedias::handleVideos($request, $usersGetter, $trick);
+                if (!$handle){
+                    $request->getSession()->getFlashBag()->add('alert-danger', 'Le lien de la vidéo n\'est pas valide.');
+                    return $this->redirectToRoute('trickViewAdd');
                 }
             }
-            $images = $request->files->get('trick')['images'];
-            if (!empty($images)) {
-                foreach ($images as $key => $file) {
-                    $filename = $fileUploader->upload($file['fichier']);
-                    if ($filename) {
-                        $image = new Image();
-                        $image->setUrl($filename);
-                        $image->setUser($usersGetter->getByUsername('joffreyc')); /** For now **/
-                        $trick->addImage($image);
-                    } else {
-                        $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png et inférieur à 500ko.');
-                        return $this->redirectToRoute('trickViewAdd');
-                    }
+            if (isset($request->files->get('trick')['images'])) { /* Traitement images */
+                $handle = HandleMedias::handleImages($request, $usersGetter, $fileUploader, $trick);
+                if (!$handle){
+                    $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png et inférieur à 500ko.');
+                    return $this->redirectToRoute('trickViewAdd');
                 }
             }
 
@@ -76,7 +60,7 @@ class TricksController extends Controller
     /**
      * @Route("/tricks/{slug}/edit", name="trickViewEdit")
      */
-    public function editAction($slug, TricksGetter $tricksGetter, Request $request)
+    public function editAction($slug, TricksGetter $tricksGetter, FileUploader $fileUploader, UsersGetter $usersGetter, Request $request)
     {
         $trick = $tricksGetter->getBySlug($slug);
         if (null === $trick) {
@@ -88,6 +72,21 @@ class TricksController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                if (isset($request->request->get('trick')['videos'])) { /* Traitement videos */
+                    $handle = HandleMedias::handleVideos($request, $usersGetter, $trick);
+                    if (!$handle){
+                        $request->getSession()->getFlashBag()->add('alert-danger', 'Le lien de la vidéo n\'est pas valide.');
+                        return $this->redirectToRoute('trickViewEdit', array('slug' => $trick->getSlug()));
+                    }
+                }
+                if (isset($request->files->get('trick')['images'])) { /* Traitement images */
+                    $handle = HandleMedias::handleImages($request, $usersGetter, $fileUploader, $trick);
+                    if (!$handle){
+                        $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png et inférieur à 500ko.');
+                        return $this->redirectToRoute('trickViewEdit', array('slug' => $trick->getSlug()));
+                    }
+                }
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($trick);
                 $em->flush();
@@ -158,24 +157,33 @@ class TricksController extends Controller
     }
 
     /**
-     * @Route("/tricks/{slug}/images/{image_id}/delete", name="imageDelete")
+     * @Route("/tricks/{slug}/medias/{type}/{media_id}/delete", name="mediaDelete")
      */
-    public function deleteImageAction($slug, $image_id, imagesGetter $imagesGetter, TricksGetter $tricksGetter, Request $request)
+    public function deleteMediaAction($slug, $type, $media_id, imagesGetter $imagesGetter, videosGetter $videosGetter, TricksGetter $tricksGetter, Request $request)
     {
         $trick = $tricksGetter->getBySlug($slug);
-        $image = $imagesGetter->getById($image_id);
-        if (null === $trick ||  null === $image) {
-            throw new NotFoundHttpException("Ce trick/cette image n'existe pas.");
+        if ($type == 'image') {
+            $media = $imagesGetter->getById($media_id);
+        } else {
+            $media = $videosGetter->getById($media_id);
         }
 
-        $trick->removeImage($image);
+        if (null === $trick ||  null === $media) {
+            throw new NotFoundHttpException("Ce trick/ce média n'existe pas.");
+        }
+
+        if ($type == 'image') {
+            $trick->removeImage($media);
+        } else {
+            $trick->removeVideo($media);
+        }
 
         $em = $this->getDoctrine()->getManager();
-        $em->remove($image);
+        $em->remove($media);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('alert-success', 'Image bien supprimée.');
+        $request->getSession()->getFlashBag()->add('alert-success', 'Média bien supprimé.');
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('trickViewEdit', array('slug' => $trick->getSlug()));
     }
 }

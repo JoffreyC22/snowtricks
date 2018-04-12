@@ -7,6 +7,21 @@
     <div class="trick-show-wrapper main-container">
         <div class="container">
             <div class="row">
+                <div class="col-md-12">
+                    <div class="jumbotron">
+                        <h2><a title="Editer le trick" class="trick-interact trick-jumbotron"
+                               href="{{ path('trickViewEdit', {'slug': trick.getSlug}) }}"><strong>{{ trick.getName }}</strong></a>
+                        </h2>
+                        <p>{{ trick.getDescription }}</p>
+                        <p><strong>{{ trick.category.getName }}</strong> | Posté le
+                            : {{ trick.getCreated|date('d/m/Y H:i:s') }}
+                            {% if trick.getCreated != trick.getUpdated %}
+                            | Dernière modification le : {{ trick.getUpdated|date('d/m/Y H:i:s') }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 {% for image in trick.images %}
                     <div class="col-md-4">
                         <div class="thumbnail">
@@ -25,21 +40,6 @@
                         </div>
                     </div>
                 {% endfor %}
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="jumbotron">
-                        <h2><a title="Editer le trick" class="trick-interact trick-jumbotron"
-                               href="{{ path('trickViewEdit', {'slug': trick.getSlug}) }}"><strong>{{ trick.getName }}</strong></a>
-                        </h2>
-                        <p>{{ trick.getDescription }}</p>
-                        <p><strong>{{ trick.category.getName }}</strong> | Posté le
-                            : {{ trick.getCreated|date('d/m/Y H:i:s') }}
-                            {% if trick.getCreated != trick.getUpdated %}
-                            | Dernière modification le : {{ trick.getUpdated|date('d/m/Y H:i:s') }}</p>
-                        {% endif %}
-                    </div>
-                </div>
             </div>
             <hr>
             <div class="row">

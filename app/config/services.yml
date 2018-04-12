@@ -36,3 +36,13 @@ services:
     AppBundle\Service\FileUploader:
         arguments:
             $targetDirectory: '%tricks_images_directory%'
+
+    AppBundle\EventListener\ImageDeleteListener:
+        tags:
+            - { name: doctrine.event_listener, event: postRemove }
+        arguments: [ '@service_container' ]
+
+    AppBundle\EventListener\TrickImageDeleteListener:
+        tags:
+            - { name: doctrine.event_listener, event: postRemove }
+        arguments: [ '@service_container' ]

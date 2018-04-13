@@ -10,12 +10,12 @@ class SecurityController extends Controller
     public function loginAction(Request $request)
     {
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirectToRoute('oc_platform_accueil');
+            return $this->redirectToRoute('home');
         }
 
         $authenticationUtils = $this->get('security.authentication_utils');
 
-        return $this->render('OCUserBundle:Security:login.html.twig', array(
+        return $this->render('@User/Security/login.html.twig', array(
             'last_username' => $authenticationUtils->getLastUsername(),
             'error'         => $authenticationUtils->getLastAuthenticationError(),
         ));

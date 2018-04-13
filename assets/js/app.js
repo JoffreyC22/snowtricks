@@ -19,7 +19,6 @@ $(document).ready(function() {
     function loadMoreItems(entity) {
         $("#load-more-"+entity).click(function() {
            var items = $('.'+entity+'-container');
-           console.log(items);
             $(items).each(function() {
                 if ($(this).hasClass('hidden')){
                     $(this).removeClass('hidden');

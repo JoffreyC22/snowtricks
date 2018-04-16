@@ -3,12 +3,13 @@
 security:
   encoders:
     Symfony\Component\Security\Core\User\User: plaintext
+    AppBundle\Entity\User: plaintext
 
   providers:
-    in_memory:
-      memory:
-        users:
-          user: { password: userpass }
+    main:
+      entity:
+        class: AppBundle\Entity\User
+        property: username
 
   firewalls:
     dev:
@@ -17,6 +18,7 @@ security:
     main:
       pattern: ^/
       anonymous: true
+      provider: main
       form_login:
         login_path: login
         check_path: login_check

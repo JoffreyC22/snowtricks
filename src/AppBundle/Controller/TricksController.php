@@ -32,14 +32,14 @@ class TricksController extends Controller
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             if (isset($request->request->get('trick')['videos'])) { /* Traitement videos */
-                $handle = HandleMedias::handleVideos($request, $usersGetter, $trick);
+                $handle = HandleMedias::handleVideos($request, $usersGetter, $trick, $this->getUser());
                 if (!$handle) {
                     $request->getSession()->getFlashBag()->add('alert-danger', 'Le lien de la vidéo n\'est pas valide.');
                     return $this->redirectToRoute('trickViewAdd');
                 }
             }
             if (isset($request->files->get('trick')['images'])) { /* Traitement images */
-                $handle = HandleMedias::handleImages($request, $usersGetter, $fileUploader, $trick);
+                $handle = HandleMedias::handleImages($request, $usersGetter, $fileUploader, $trick, $this->getUser());
                 if (!$handle) {
                     $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png.');
                     return $this->redirectToRoute('trickViewAdd');
@@ -74,14 +74,14 @@ class TricksController extends Controller
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             if (isset($request->request->get('trick')['videos'])) { /* Traitement videos */
-                $handle = HandleMedias::handleVideos($request, $usersGetter, $trick);
+                $handle = HandleMedias::handleVideos($request, $usersGetter, $trick, $this->getUser());
                 if (!$handle) {
                     $request->getSession()->getFlashBag()->add('alert-danger', 'Le lien de la vidéo n\'est pas valide.');
                     return $this->redirectToRoute('trickViewEdit', array('slug' => $trick->getSlug()));
                 }
             }
             if (isset($request->files->get('trick')['images'])) { /* Traitement images */
-                $handle = HandleMedias::handleImages($request, $usersGetter, $fileUploader, $trick);
+                $handle = HandleMedias::handleImages($request, $usersGetter, $fileUploader, $trick, $this->getUser());
                 if (!$handle) {
                     $request->getSession()->getFlashBag()->add('alert-danger', 'Le fichier doit être de type : jpg, jpeg ou png.');
                     return $this->redirectToRoute('trickViewEdit', array('slug' => $trick->getSlug()));
@@ -120,10 +120,13 @@ class TricksController extends Controller
                 throw new AccessDeniedException('Vous devez être authentifié.');
             }
 
+            $current_user = $this->getUser();
+            $user = $usersGetter->getByUsername($current_user->getUsername());
+
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $comment->setUser($usersGetter->getByUsername('joffreyc')); /* A remplacer quand le module d'auth sera fait **/
+                $comment->setUser($user);
                 $comment->setTrick($trick);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($comment);

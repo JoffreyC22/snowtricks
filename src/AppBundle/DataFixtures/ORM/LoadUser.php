@@ -29,6 +29,8 @@ class LoadUser extends Fixture implements OrderedFixtureInterface
         $user->setPhoto('/uploads/images/default-profile.png');
         $user->setPassword($password);
         $user->setUsername('joffreyc');
+        $user->setSalt('');
+        $user->setRoles(array('ROLE_USER'));
 
         $this->addReference('joffrey', $user);
 

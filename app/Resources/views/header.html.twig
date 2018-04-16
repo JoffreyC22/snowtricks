@@ -24,12 +24,14 @@
                                         <li><a href="{{ path('trickViewAdd') }}">Ajouter un trick</a></li>
                                     {% endif %}
                                 </ul>
-                                {% if app.user == null %}
                                 <ul class="nav navbar-nav navbar-right">
-                                    <li class="active"><a href="/login">Se connecter</a></li>
-                                    <li><a href="#">S'enregistrer</a></li>
+                                    {% if app.user == null %}
+                                        <li class="active"><a href="/login">Se connecter</a></li>
+                                        <li><a href="#">S'enregistrer</a></li>
+                                    {% else %}
+                                        <li><a href="/logout">Se déconnecter</a></li>
+                                    {% endif %}
                                 </ul>
-                                {% endif %}
                             </div><!--/.nav-collapse -->
                         </div>
                     </nav>

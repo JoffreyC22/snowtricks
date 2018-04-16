@@ -16,19 +16,17 @@ use AppBundle\Form\TrickType;
 use AppBundle\Form\CommentType;
 use AppBundle\Service\FileUploader;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class TricksController extends Controller
 {
     /**
      * @Route("/tricks/add", name="trickViewAdd")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function addAction(Request $request, FileUploader $fileUploader, UsersGetter $usersGetter)
     {
-        if ($this->getUser() == null){
-            $request->getSession()->getFlashBag()->add('alert-danger', 'Vous n\'êtes pas authentifié.');
-            return $this->redirectToRoute('home');
-        }
-
         $trick = new Trick();
         $form = $this->get('form.factory')->create(TrickType::class, $trick);
 
@@ -64,14 +62,10 @@ class TricksController extends Controller
 
     /**
      * @Route("/tricks/{slug}/edit", name="trickViewEdit")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function editAction($slug, TricksGetter $tricksGetter, FileUploader $fileUploader, UsersGetter $usersGetter, Request $request)
     {
-        if ($this->getUser() == null){
-            $request->getSession()->getFlashBag()->add('alert-danger', 'Vous n\'êtes pas authentifié.');
-            return $this->redirectToRoute('home');
-        }
-
         $trick = $tricksGetter->getBySlug($slug);
         if (null === $trick) {
             throw new NotFoundHttpException("Ce trick n'existe pas.");
@@ -123,8 +117,7 @@ class TricksController extends Controller
 
         if ($request->isMethod('POST')) {
             if ($this->getUser() == null){
-                $request->getSession()->getFlashBag()->add('alert-danger', 'Vous n\'êtes pas authentifié.');
-                return $this->redirectToRoute('home');
+                throw new AccessDeniedException('Vous devez être authentifié.');
             }
 
             $form->handleRequest($request);
@@ -150,14 +143,10 @@ class TricksController extends Controller
 
     /**
      * @Route("/tricks/{slug}/delete", name="trickDelete")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function deleteAction($slug, TricksGetter $tricksGetter, Request $request)
     {
-        if ($this->getUser() == null){
-            $request->getSession()->getFlashBag()->add('alert-danger', 'Vous n\'êtes pas authentifié.');
-            return $this->redirectToRoute('home');
-        }
-
         $trick = $tricksGetter->getBySlug($slug);
         if (null === $trick) {
             throw new NotFoundHttpException("Ce trick n'existe pas.");
@@ -174,14 +163,10 @@ class TricksController extends Controller
 
     /**
      * @Route("/tricks/{slug}/medias/{type}/{media_id}/delete", name="mediaDelete")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function deleteMediaAction($slug, $type, $media_id, imagesGetter $imagesGetter, videosGetter $videosGetter, TricksGetter $tricksGetter, Request $request)
     {
-        if ($this->getUser() == null){
-            $request->getSession()->getFlashBag()->add('alert-danger', 'Vous n\'êtes pas authentifié.');
-            return $this->redirectToRoute('home');
-        }
-
         $trick = $tricksGetter->getBySlug($slug);
         if ($type == 'image') {
             $media = $imagesGetter->getById($media_id);

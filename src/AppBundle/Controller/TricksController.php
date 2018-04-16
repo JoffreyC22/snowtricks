@@ -24,6 +24,11 @@ class TricksController extends Controller
      */
     public function addAction(Request $request, FileUploader $fileUploader, UsersGetter $usersGetter)
     {
+        if ($this->getUser() == null){
+            $request->getSession()->getFlashBag()->add('alert-danger', 'Vous n\'êtes pas authentifié.');
+            return $this->redirectToRoute('home');
+        }
+
         $trick = new Trick();
         $form = $this->get('form.factory')->create(TrickType::class, $trick);
 
@@ -62,6 +67,11 @@ class TricksController extends Controller
      */
     public function editAction($slug, TricksGetter $tricksGetter, FileUploader $fileUploader, UsersGetter $usersGetter, Request $request)
     {
+        if ($this->getUser() == null){
+            $request->getSession()->getFlashBag()->add('alert-danger', 'Vous n\'êtes pas authentifié.');
+            return $this->redirectToRoute('home');
+        }
+
         $trick = $tricksGetter->getBySlug($slug);
         if (null === $trick) {
             throw new NotFoundHttpException("Ce trick n'existe pas.");
@@ -112,6 +122,11 @@ class TricksController extends Controller
         $form = $this->get('form.factory')->create(CommentType::class, $comment);
 
         if ($request->isMethod('POST')) {
+            if ($this->getUser() == null){
+                $request->getSession()->getFlashBag()->add('alert-danger', 'Vous n\'êtes pas authentifié.');
+                return $this->redirectToRoute('home');
+            }
+
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -138,6 +153,11 @@ class TricksController extends Controller
      */
     public function deleteAction($slug, TricksGetter $tricksGetter, Request $request)
     {
+        if ($this->getUser() == null){
+            $request->getSession()->getFlashBag()->add('alert-danger', 'Vous n\'êtes pas authentifié.');
+            return $this->redirectToRoute('home');
+        }
+
         $trick = $tricksGetter->getBySlug($slug);
         if (null === $trick) {
             throw new NotFoundHttpException("Ce trick n'existe pas.");
@@ -157,6 +177,11 @@ class TricksController extends Controller
      */
     public function deleteMediaAction($slug, $type, $media_id, imagesGetter $imagesGetter, videosGetter $videosGetter, TricksGetter $tricksGetter, Request $request)
     {
+        if ($this->getUser() == null){
+            $request->getSession()->getFlashBag()->add('alert-danger', 'Vous n\'êtes pas authentifié.');
+            return $this->redirectToRoute('home');
+        }
+
         $trick = $tricksGetter->getBySlug($slug);
         if ($type == 'image') {
             $media = $imagesGetter->getById($media_id);

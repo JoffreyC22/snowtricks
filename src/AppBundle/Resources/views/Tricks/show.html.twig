@@ -41,10 +41,14 @@
                     </div>
                 {% endfor %}
             </div>
-            <hr>
+            {% if app.user != null %}
+                <hr>
+            {% endif %}
             <div class="row">
                 <div class="col-md-6 col-md-offset-3 text-center">
-                    {{ form(form) }}
+                    {% if app.user != null %}
+                        {{ form(form) }}
+                    {% endif %}
                     {% for message in app.session.flashbag.get('alert-success') %}
                         <div class="alert alert-success" role="alert">
                             {{ message }}
@@ -52,7 +56,9 @@
                     {% endfor %}
                 </div>
             </div>
-            <hr>
+            {% if app.user != null %}
+                <hr>
+            {% endif %}
             <div class="row">
                 <div class="col-md-6 col-md-offset-3 text-center">
                     {% for comment in trick.comments %}

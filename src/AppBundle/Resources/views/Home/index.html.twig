@@ -13,6 +13,11 @@
                             {{ message }}
                         </div>
                     {% endfor %}
+                    {% for message in app.session.flashbag.get('alert-danger') %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                     <h2>Toutes les figures</h2>
                 </div>
             </div>
@@ -24,10 +29,12 @@
                             <div class="caption">
                                 <h3><a class="trick-title" href="{{ path('trickViewShow', {'slug': trick.getSlug}) }}">{{ trick.getName }}</a></h3>
                                 <p>{{ trick.getDescription|length > 50 ? trick.getDescription|slice(0, 50) ~ '...' : trick.getDescription }}</p>
+                                {% if app.user != null %}
                                 <p>
                                     <a href="{{ path('trickViewEdit', {'slug': trick.getSlug}) }}" class="btn btn-primary" role="button">Editer</a>
                                     <a href="{{ path('trickDelete', {'slug': trick.getSlug}) }}" class="btn btn-default delete-trick" role="button">Supprimer</a>
                                 </p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

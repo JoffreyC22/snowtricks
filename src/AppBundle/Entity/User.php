@@ -65,10 +65,8 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="photo", type="string", length=255, nullable=true)
-     * @Assert\File(
+     * @Assert\Image(
      *     maxSize = "1024k",
-     *     mimeTypes={ "image/jpg", "image/png" },
-     *     mimeTypesMessage = "Le fichier doit être un jpg ou png"
      * )
      */
     private $photo;
@@ -329,14 +327,5 @@ class User implements UserInterface
         $this->roles = $roles;
 
         return $this;
-    }
-
-    /**
-     * Gets triggered only on insert
-     * @ORM\PrePersist
-     */
-    public function onPrePersist()
-    {
-        $this->photo = '/uploads/images/default-profile.png';
     }
 }

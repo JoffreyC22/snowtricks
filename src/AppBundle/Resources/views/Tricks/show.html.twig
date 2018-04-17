@@ -63,7 +63,7 @@
                 <div class="col-md-6 col-md-offset-3 text-center">
                     {% for comment in trick.comments %}
                         <div class="comment-container flex-container {{ (loop.index >= 10) ? 'hidden' : '' }}">
-                            <img width="50" height="50" src="{{ comment.user.getPhoto }}"
+                            <img width="50" height="50" src="/uploads/images/{{ comment.user.getPhoto }}"
                                  alt="Photo de profil de {{ comment.user.getUsername }}">
                             <div class="comment-content">
                                 <p><strong>{{ comment.user.getFirstname }} {{ comment.user.getLastname }}</strong> |

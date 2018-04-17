@@ -26,7 +26,7 @@ class LoadUser extends Fixture implements OrderedFixtureInterface
         $user->setFirstname('Joffrey');
         $user->setEmail('joffrey@yeswedev.fr');
         $password = $this->encoder->encodePassword($user, 'secret');
-        $user->setPhoto('/uploads/images/default-profile.png');
+        $user->setPhoto('default-profile.png');
         $user->setPassword($password);
         $user->setUsername('joffreyc');
         $user->setSalt('');

@@ -16,7 +16,7 @@ class RegistrationController extends Controller
     /**
      * @Route("/register", name="registration")
      */
-    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, FileUploader $fileUploader)
+    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -26,8 +26,11 @@ class RegistrationController extends Controller
 
             $file = $user->getPhoto();
             if ($file) {
-                $fileName = $fileUploader->upload($file);
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move($this->container->getParameter('profil_pictures_directory'), $fileName);
                 $user->setPhoto($fileName);
+            } else {
+                $user->setPhoto('default-profile.png');
             }
 
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());

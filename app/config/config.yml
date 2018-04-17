@@ -9,6 +9,7 @@ imports:
 parameters:
     locale: en
     tricks_images_directory: '%kernel.project_dir%/web/uploads/images/tricks'
+    profil_pictures_directory: '%kernel.project_dir%/web/uploads/images/'
 
 framework:
     #esi: ~

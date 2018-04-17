@@ -12,8 +12,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
- * @UniqueEntity("username")
- * @UniqueEntity("email")
+ * @UniqueEntity(
+ *     "username",
+ *     message="Ce pseudo est déjà utilisé"
+ * )
+ * @UniqueEntity(
+ *     "email",
+ *     message="Cet e-mail est déjà utilisé"
+ * )
  * @ORM\HasLifecycleCallbacks
  */
 class User implements UserInterface
@@ -80,7 +86,7 @@ class User implements UserInterface
      * @Assert\Length(
      *     min=4,
      *     max=4096,
-     *     mniMessage = "Le mot de passe doit contenir au moins quatre caractères"
+     *     minMessage = "Le mot de passe doit contenir au moins quatre caractères"
      * )
      */
     private $plainPassword;

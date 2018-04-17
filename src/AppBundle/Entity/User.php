@@ -121,6 +121,12 @@ class User implements UserInterface
     private $roles = array();
 
 
+    public function __construct() {
+        $this->roles = array("ROLE_USER");
+        $this->salt = null;
+    }
+
+
     // Les getters et setters
 
     /**

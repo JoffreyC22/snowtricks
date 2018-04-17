@@ -34,7 +34,9 @@ class User implements UserInterface
      * @Assert\Type("string")
      * @Assert\Length(
      *     min = 2,
-     *     max = 15
+     *     max = 15,
+     *     minMessage = "Minimum 2 caractères",
+     *     maxMessage = "Maximum 15 caractères"
      * )
      */
     private $lastname;
@@ -46,7 +48,9 @@ class User implements UserInterface
      * @Assert\Type("string")
      * @Assert\Length(
      *     min = 2,
-     *     max = 15
+     *     max = 15,
+     *     minMessage = "Minimum 2 caractères",
+     *     maxMessage = "Maximum 15 caractères"
      * )
      */
     private $firstname;
@@ -73,7 +77,11 @@ class User implements UserInterface
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(max=4096)
+     * @Assert\Length(
+     *     min=4,
+     *     max=4096,
+     *     mniMessage = "Le mot de passe doit contenir au moins quatre caractères"
+     * )
      */
     private $plainPassword;
 

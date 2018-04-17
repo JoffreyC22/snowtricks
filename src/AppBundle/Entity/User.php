@@ -30,6 +30,11 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=255)
+     * @Assert\Type("string")
+     * @Assert\Length(
+     *     min = 2
+     *     max = 15
+     * )
      */
     private $lastname;
 
@@ -37,6 +42,11 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255)
+     * @Assert\Type("string")
+     * @Assert\Length(
+     *     min = 2
+     *     max = 15
+     * )
      */
     private $firstname;
 
@@ -44,7 +54,11 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="photo", type="string", length=255, nullable=true)
-     * @Assert\File(mimeTypes={ "image/jpg", "image/png" })
+     * @Assert\File(
+     *     maxSize = "1024k",
+     *     mimeTypes={ "image/jpg", "image/png" },
+     *     mimeTypesMessage = "Le fichier doit être un jpg ou png"
+     * )
      */
     private $photo;
 
@@ -52,6 +66,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @Assert\Email()
      */
     private $email;
 
@@ -65,6 +80,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $password;
 
@@ -72,6 +88,13 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255, unique=true)
+     * @Assert\Type("string")
+     * @Assert\Length(
+     *     min = 2,
+     *     max = 10,
+     *     minMessage = "Le pseudo doit contenir au moins deux caractères",
+     *     maxMessage = "Le pseudo ne peut pas dépasser 10 caractères"
+     * )
      */
     private $username;
 

@@ -3,6 +3,7 @@
 // src/AppBundle/Controller/RegistrationController.php
 namespace AppBundle\Controller;
 
+use AppBundle\Service\FileUploader;
 use AppBundle\Form\UserType;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,7 +16,7 @@ class RegistrationController extends Controller
     /**
      * @Route("/register", name="registration")
      */
-    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, FileUploader $fileUploader)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -23,8 +24,15 @@ class RegistrationController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $file = $user->getPhoto();
+            if ($file) {
+                $fileName = $fileUploader->upload($file);
+                $user->setPhoto($fileName);
+            }
+
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
+            $user->setRoles(array('ROLE_USER'));
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

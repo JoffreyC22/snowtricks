@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity("username")
  * @UniqueEntity("email")
+ * @ORM\HasLifecycleCallbacks
  */
 class User implements UserInterface
 {
@@ -32,7 +33,7 @@ class User implements UserInterface
      * @ORM\Column(name="lastname", type="string", length=255)
      * @Assert\Type("string")
      * @Assert\Length(
-     *     min = 2
+     *     min = 2,
      *     max = 15
      * )
      */
@@ -44,7 +45,7 @@ class User implements UserInterface
      * @ORM\Column(name="firstname", type="string", length=255)
      * @Assert\Type("string")
      * @Assert\Length(
-     *     min = 2
+     *     min = 2,
      *     max = 15
      * )
      */
@@ -80,7 +81,6 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
-     * @Assert\NotBlank()
      */
     private $password;
 
@@ -99,7 +99,7 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column(name="salt", type="string", length=255)
+     * @ORM\Column(name="salt", type="string", length=255, nullable=true)
      */
     private $salt;
 
@@ -315,5 +315,14 @@ class User implements UserInterface
         $this->roles = $roles;
 
         return $this;
+    }
+
+    /**
+     * Gets triggered only on insert
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->photo = '/uploads/images/default-profile.png';
     }
 }

@@ -28,7 +28,8 @@ class UserType extends AbstractType
                 'type' => PasswordType::class,
                 'first_options'  => array('label' => 'Mot de passe'),
                 'second_options' => array('label' => 'Confirmez le mot de passe'),
-                'required' => true
+                'required' => true,
+                'invalid_message' => 'Les mots de passe ne correspondent pas',
             ))
             ->add('save', SubmitType::class, array(
                 'label' => 'Confirmer',

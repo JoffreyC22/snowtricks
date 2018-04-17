@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+
+{% block title %} {{ parent() }} S'enregistrer{% endblock %}
+
+{% block body %}
+
+    <div class="trick-add-wrapper main-container register-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="text-center">S'enregistrer</h2>
+                    {% for message in app.session.flashbag.get('alert-success') %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% for message in app.session.flashbag.get('alert-danger') %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

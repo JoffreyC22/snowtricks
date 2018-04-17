@@ -2,13 +2,14 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Form\UserType;
-use AppBundle\Entity\User;
+use AppBundle\Service\UsersGetter;
+use AppBundle\Service\ResetPassword;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ResetPasswordController extends Controller
@@ -16,7 +17,7 @@ class ResetPasswordController extends Controller
     /**
      * @Route("/reset-password", name="resetPassword")
      */
-    public function resetpasswordAction(Request $request, UserPasswordEncoderInterface $encoder)
+    public function resetpasswordAction(Request $request, UserPasswordEncoderInterface $encoder, UsersGetter $usersGetter, \Swift_Mailer $mailer)
     {
         $formBuilder = $this->get('form.factory')->createBuilder();
 
@@ -37,10 +38,18 @@ class ResetPasswordController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $data = $request->request->get('form');
+            $username = $data['username'];
 
+            if (null === $username) {
+                throw new NotFoundHttpException("Cet utilisateur n\'existe pas.");
+            }
 
+            $user = $usersGetter->getByUsername($username);
 
-            $request->getSession()->getFlashBag()->add('alert-success', 'Votre compte a bien été crée.');
+            ResetPassword::sendNew($user->getEmail());
+
+            $request->getSession()->getFlashBag()->add('alert-success', 'Un nouveau mot de passe vous a été envoyé');
             return $this->redirectToRoute('home');
         }
 

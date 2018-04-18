@@ -12,7 +12,7 @@ class MailSender
         $this->usersGetter = $usersGetter;
     }
 
-    public static function sendResetPassword($to) {
+    /*public static function sendResetPassword($to) {
         $message = (new \Swift_Message('Hello Email'))
             ->setFrom('send@example.com')
             ->setTo($to)
@@ -27,7 +27,7 @@ class MailSender
         ;
 
         $mailer->send($message);
-    }
+    }*/
 
     public static function sendActivation($to) {
         $user = $usersGetter->getByEmail($to);

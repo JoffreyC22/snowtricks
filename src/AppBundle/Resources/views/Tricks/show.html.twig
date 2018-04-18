@@ -45,7 +45,7 @@
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="{{ path('trickDelete', {'slug': trick.getSlug}) }}" class="btn btn-default delete-trick" role="button">Supprimer le trick</a>
+                        <a href="{{ path('trickDelete', {'slug': trick.getSlug}) }}" class="btn btn-danger delete-trick" role="button">Supprimer le trick</a>
                     </div>
                 </div>
                 <hr>

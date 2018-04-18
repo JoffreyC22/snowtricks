@@ -193,7 +193,7 @@ h1{
   margin-bottom: 20px;
 }
 
-.show-medias{
+.show-medias, .show-images-edit, .trick-show-wrapper .delete-trick{
   margin: 15px;
 }
 
@@ -252,11 +252,11 @@ h1{
     text-align: center;
   }
   
-  .videos-trick, .images-trick{
+  .videos-trick, .images-trick, .images-edit{
     display: none;
   }
   
-  .show-medias{
+  .show-medias, .show-images-edit{
     display: block !important;
   }
 }

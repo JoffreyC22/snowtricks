@@ -44,9 +44,17 @@ $(document).ready(function() {
     });
 
     function showMediasButton() {
-        $('.show-medias').click(function(){
-           $('.videos-trick').fadeIn();
-           $('.images-trick').fadeIn();
+        $('.show-medias').click(function(e){
+            e.preventDefault();
+            $('.videos-trick').fadeIn();
+            $('.images-trick').fadeIn();
+        });
+    }
+
+    function showImagesEdit() {
+        $('.show-images-edit').click(function(e){
+            e.preventDefault();
+            $('.images-edit').fadeIn();
         });
     }
 
@@ -82,6 +90,7 @@ $(document).ready(function() {
     addAnotherItem('add-another-collection-widget');
     addAnotherItem('add-another-collection-widget-video');
     showMediasButton();
+    showImagesEdit();
     window.onscroll = function() {scrollFunction()};
 
 });

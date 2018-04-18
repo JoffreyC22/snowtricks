@@ -178,6 +178,7 @@ footer{
 #image-fields-list{
   list-style-type: none;
   display:flex;
+  flex-wrap: wrap;
   li{
     padding: 10px;
   }

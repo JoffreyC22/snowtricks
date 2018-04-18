@@ -21,6 +21,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class TricksController extends Controller
 {
+
+    /**
+     * @Route("/", name="home")
+     */
+    public function indexAction(TricksGetter $tricksGetter)
+    {
+        $tricks = $tricksGetter->getAll();
+
+        return $this->render('@App/Tricks/index.html.twig', array(
+            'tricks' => $tricks
+        ));
+    }
+
+
     /**
      * @Route("/tricks/add", name="trickViewAdd")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")

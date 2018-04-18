@@ -120,6 +120,13 @@ class User implements UserInterface
      */
     private $roles = array();
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="token_activation", type="string", length=255)
+     */
+    private $token_activation;
+
 
     public function __construct() {
         $this->roles = array("ROLE_USER");
@@ -333,5 +340,29 @@ class User implements UserInterface
         $this->roles = $roles;
 
         return $this;
+    }
+
+    /**
+     * Set token_activation
+     *
+     * @param string $token_activation
+     *
+     * @return User
+     */
+    public function setTokenActivation($token_activation)
+    {
+        $this->token_activation = $token_activation;
+
+        return $this;
+    }
+
+    /**
+     * Get token_activation
+     *
+     * @return string
+     */
+    public function getTokenActivation()
+    {
+        return $this->token_activation;
     }
 }

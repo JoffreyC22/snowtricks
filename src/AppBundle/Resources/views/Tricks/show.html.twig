@@ -54,11 +54,8 @@
                         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                             {{ form(form) }}
                         {% endif %}
-                        {% for message in app.session.flashbag.get('alert-success') %}
-                            <div class="alert alert-success" role="alert">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
+                        {% include "alert-success.html.twig" %}
+                        {% include "alert-danger.html.twig" %}
                     </div>
                 </div>
                 <hr>

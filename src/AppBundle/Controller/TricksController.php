@@ -34,7 +34,6 @@ class TricksController extends Controller
         ));
     }
 
-
     /**
      * @Route("/tricks/add", name="trickViewAdd")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")

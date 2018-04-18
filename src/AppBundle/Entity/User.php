@@ -127,10 +127,17 @@ class User implements UserInterface
      */
     private $token_activation;
 
+    /**
+     * @ORM\Column(name="activated", type="boolean")
+     */
+    private $activated;
+
 
     public function __construct() {
         $this->roles = array("ROLE_USER");
         $this->salt = null;
+        $this->token_activation = bin2hex(random_bytes(20));
+        $this->activated = false;
     }
 
 
@@ -364,5 +371,29 @@ class User implements UserInterface
     public function getTokenActivation()
     {
         return $this->token_activation;
+    }
+
+    /**
+     * Set activated
+     *
+     * @param bool $activated
+     *
+     * @return User
+     */
+    public function setActivated($activated)
+    {
+        $this->activated = $activated;
+
+        return $this;
+    }
+
+    /**
+     * Get activated
+     *
+     * @return bool
+     */
+    public function getActivated()
+    {
+        return $this->activated;
     }
 }

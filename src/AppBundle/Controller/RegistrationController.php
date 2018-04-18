@@ -3,9 +3,10 @@
 // src/AppBundle/Controller/RegistrationController.php
 namespace AppBundle\Controller;
 
-use AppBundle\Service\FileUploader;
+use AppBundle\Service\MailSender;
 use AppBundle\Form\UserType;
 use AppBundle\Entity\User;
+use AppBundle\Service\UsersGetter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,7 +17,7 @@ class RegistrationController extends Controller
     /**
      * @Route("/register", name="registration")
      */
-    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, UsersGetter $usersGetter)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -39,6 +40,8 @@ class RegistrationController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
+            MailSender::sendActivation($user->getEmail(), $usersGetter);
 
             $request->getSession()->getFlashBag()->add('alert-success', 'Votre compte a bien été crée.');
 

@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Service\UsersGetter;
-use AppBundle\Service\ResetPassword;
+use AppBundle\Service\MailSender;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,7 +47,7 @@ class ResetPasswordController extends Controller
 
             $user = $usersGetter->getByUsername($username);
 
-            ResetPassword::sendNew($user->getEmail());
+            MailSender::sendResetPassword($user->getEmail());
 
             $request->getSession()->getFlashBag()->add('alert-success', 'Un nouveau mot de passe vous a été envoyé');
             return $this->redirectToRoute('home');

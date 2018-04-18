@@ -43,6 +43,13 @@ $(document).ready(function() {
         scrollTopPage();
     });
 
+    function showMediasButton() {
+        $('.show-medias').click(function(){
+           $('.videos-trick').fadeIn();
+           $('.images-trick').fadeIn();
+        });
+    }
+
     function addAnotherItem(clicked) {
         $('.'+clicked).click(function (e) {
             e.preventDefault();
@@ -74,6 +81,7 @@ $(document).ready(function() {
     confirmDelete();
     addAnotherItem('add-another-collection-widget');
     addAnotherItem('add-another-collection-widget-video');
+    showMediasButton();
     window.onscroll = function() {scrollFunction()};
 
 });

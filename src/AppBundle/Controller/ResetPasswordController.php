@@ -17,7 +17,7 @@ class ResetPasswordController extends Controller
     /**
      * @Route("/reset-password", name="resetPassword")
      */
-    public function resetpasswordAction(Request $request, UserPasswordEncoderInterface $encoder, UsersGetter $usersGetter, \Swift_Mailer $mailer)
+    public function resetpasswordAction(Request $request, UserPasswordEncoderInterface $encoder, UsersGetter $usersGetter)
     {
         $formBuilder = $this->get('form.factory')->createBuilder();
 

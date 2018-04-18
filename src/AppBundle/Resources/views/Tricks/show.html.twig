@@ -21,9 +21,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <button class="btn btn-primary hidden show-medias">Montrer les médias</button>
+            <div class="row images-trick">
                 {% for image in trick.images %}
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="thumbnail">
                             <img src="/uploads/images/tricks/{{ image.getUrl }}"
                                  alt="Illustration du trick {{ trick.getName }}">
@@ -31,9 +32,9 @@
                     </div>
                 {% endfor %}
             </div>
-            <div class="row">
+            <div class="row videos-trick">
                 {% for video in trick.videos %}
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="thumbnail">
                             <iframe frameborder="0" style="height:200px;width:100%;"
                                     src="{{ video.getPath }}"></iframe>

@@ -192,6 +192,10 @@ h1{
   margin-bottom: 20px;
 }
 
+.show-medias{
+  margin: 15px;
+}
+
 /** Responsive **/
 
 @media (min-width: 768px) {
@@ -215,5 +219,43 @@ h1{
   .masthead,
   .cover-container {
     width: 700px;
+  }
+}
+
+@media screen and (max-width: 768px){
+  .inner .navbar-fixed-top{
+    bottom: 0;
+    top: auto;
+    border-top: 1px solid #ddd;
+  }
+
+  .inner .navbar{
+    margin-bottom: 0;
+  }
+
+  .thumbnail > img{
+    height: auto;
+  }
+
+  .jumbotron p{
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 480px){
+  .container .jumbotron{
+    padding: 15px;
+  }
+  
+  .jumbotron h2{
+    text-align: center;
+  }
+  
+  .videos-trick, .images-trick{
+    display: none;
+  }
+  
+  .show-medias{
+    display: block !important;
   }
 }

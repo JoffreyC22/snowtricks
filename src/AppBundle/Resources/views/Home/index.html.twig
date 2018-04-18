@@ -23,7 +23,7 @@
             </div>
             <div class="row tricks-container">
                 {% for trick in tricks %}
-                    <div class="trick-container col-sm-6 col-md-4 {{ (loop.index >= 10) ? 'hidden' : '' }}">
+                    <div class="trick-container col-xs-12 col-sm-6 col-md-4 {{ (loop.index >= 10) ? 'hidden' : '' }}">
                         <div class="thumbnail">
                             <img src="{{ trick.getImageCouverture }}" alt="Illustration du trick {{ trick.getName }}">
                             <div class="caption">

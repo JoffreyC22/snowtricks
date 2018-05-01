@@ -5,11 +5,12 @@ namespace AppBundle\Service;
 class MailSender
 {
     protected $mailer;
+    protected $templating;
 
-    public function __construct($mailer, $usersGetter)
+    public function __construct($mailer, $templating)
     {
         $this->mailer = $mailer;
-        $this->usersGetter = $usersGetter;
+        $this->templating = $templating;
     }
 
     /*public static function sendResetPassword($to) {
@@ -29,13 +30,13 @@ class MailSender
         $mailer->send($message);
     }*/
 
-    public static function sendActivation($to) {
+    public function sendActivation($to, $usersGetter) {
         $user = $usersGetter->getByEmail($to);
         $message = (new \Swift_Message('Snowtricks : activation du compte'))
             ->setFrom('contact@snowtricks.com')
             ->setTo($to)
             ->setBody(
-                $this->renderView(
+                $this->templating->render(
                 // app/Resources/views/Emails/registration.html.twig
                     'Emails/registration.html.twig',
                     array('user' => $user)
@@ -44,6 +45,6 @@ class MailSender
             )
         ;
 
-        $mailer->send($message);
+        $this->mailer->send($message);
     }
 }

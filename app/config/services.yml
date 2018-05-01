@@ -48,4 +48,4 @@ services:
         arguments: [ '@service_container' ]
 
     AppBundle\Service\MailSender:
-        arguments: [ '@mailer', '@usersGetter' ]
+        arguments: [ '@mailer', '@templating' ]

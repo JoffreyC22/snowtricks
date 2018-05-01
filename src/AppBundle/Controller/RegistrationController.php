@@ -17,7 +17,7 @@ class RegistrationController extends Controller
     /**
      * @Route("/register", name="registration")
      */
-    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, UsersGetter $usersGetter, MailSender $mailSender)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -41,7 +41,7 @@ class RegistrationController extends Controller
             $entityManager->persist($user);
             $entityManager->flush();
 
-            MailSender::sendActivation($user->getEmail());
+            $mailSender->sendActivation($user->getEmail(), $usersGetter);
 
             $request->getSession()->getFlashBag()->add('alert-success', 'Votre compte a bien été crée.');
 

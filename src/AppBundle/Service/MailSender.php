@@ -13,22 +13,23 @@ class MailSender
         $this->templating = $templating;
     }
 
-    /*public static function sendResetPassword($to) {
-        $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('send@example.com')
+    public function sendResetPassword($to, $usersGetter) {
+        $user = $usersGetter->getByEmail($to);
+        $message = (new \Swift_Message('Snowtricks : reset du mot de passe'))
+            ->setFrom('contact@snowtricks.com')
             ->setTo($to)
             ->setBody(
-                $this->renderView(
+                $this->templating->render(
                 // app/Resources/views/Emails/registration.html.twig
-                    'Emails/registration.html.twig',
-                    array('name' => $name)
+                    'Emails/reset-password.html.twig',
+                    array('user' => $user)
                 ),
                 'text/html'
             )
         ;
 
-        $mailer->send($message);
-    }*/
+        $this->mailer->send($message);
+    }
 
     public function sendActivation($to, $usersGetter) {
         $user = $usersGetter->getByEmail($to);

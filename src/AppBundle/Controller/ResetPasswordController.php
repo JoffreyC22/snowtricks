@@ -17,7 +17,7 @@ class ResetPasswordController extends Controller
     /**
      * @Route("/reset-password", name="resetPassword")
      */
-    public function resetpasswordAction(Request $request, UserPasswordEncoderInterface $encoder, UsersGetter $usersGetter)
+    public function resetpasswordAction(Request $request, UserPasswordEncoderInterface $encoder, UsersGetter $usersGetter, MailSender $mailSender)
     {
         $formBuilder = $this->get('form.factory')->createBuilder();
 
@@ -47,10 +47,16 @@ class ResetPasswordController extends Controller
 
             $user = $usersGetter->getByUsername($username);
 
-            MailSender::sendResetPassword($user->getEmail());
+            $user->setTokenResetPassword(bin2hex(random_bytes(20)));
+
+            $mailSender->sendResetPassword($user->getEmail(), $usersGetter);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             $request->getSession()->getFlashBag()->add('alert-success', 'Un nouveau mot de passe vous a été envoyé');
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('login');
         }
 
         return $this->render('@App/Password/reset-password.html.twig', array(

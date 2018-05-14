@@ -129,6 +129,13 @@ class User implements AdvancedUserInterface
     private $token_activation;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="token_reset_password", type="string", length=255, nullable=true)
+     */
+    private $token_reset_password;
+
+    /**
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
@@ -372,6 +379,30 @@ class User implements AdvancedUserInterface
     public function getTokenActivation()
     {
         return $this->token_activation;
+    }
+
+    /**
+     * Set token_reset_password
+     *
+     * @param string $token_reset_password
+     *
+     * @return User
+     */
+    public function setTokenResetPassword($token_reset_password)
+    {
+        $this->token_reset_password = $token_reset_password;
+
+        return $this;
+    }
+
+    /**
+     * Get token_reset_password
+     *
+     * @return string
+     */
+    public function getTokenResetPassword()
+    {
+        return $this->token_reset_password;
     }
 
     /**

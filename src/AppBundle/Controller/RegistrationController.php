@@ -10,6 +10,7 @@ use AppBundle\Service\UsersGetter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistrationController extends Controller
@@ -51,5 +52,26 @@ class RegistrationController extends Controller
         return $this->render('@App/Registration/register.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * @Route("/activate/{token}", name="activation")
+     */
+    public function activateAction($token, Request $request, UsersGetter $usersGetter)
+    {
+        $user = $usersGetter->getByToken($token);
+        if (null === $user || $user->isEnabled()) {
+            throw new NotFoundHttpException("Une erreur est survenue, veuillez contacter le webmaster.");
+        }
+
+        $user->setIsActive(true);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $request->getSession()->getFlashBag()->add('alert-success', 'Votre compte a bien été activé.');
+
+        return $this->redirectToRoute('login');
     }
 }

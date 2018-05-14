@@ -52,4 +52,15 @@ class UsersGetter
 
         return $user;
     }
+
+    public function getByToken($token)
+    {
+        $em = $this->em;
+        $usersRepository = $em->getRepository('AppBundle:User');
+        $user = $usersRepository->findOneBy(array(
+            'token_activation' => $token
+        ));
+
+        return $user;
+    }
 }

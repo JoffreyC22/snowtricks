@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -22,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\HasLifecycleCallbacks
  */
-class User implements UserInterface
+class User implements AdvancedUserInterface
 {
     /**
      * @var int
@@ -128,9 +129,9 @@ class User implements UserInterface
     private $token_activation;
 
     /**
-     * @ORM\Column(name="activated", type="boolean")
+     * @ORM\Column(name="is_active", type="boolean")
      */
-    private $activated;
+    private $isActive;
 
 
     public function __construct() {
@@ -374,26 +375,51 @@ class User implements UserInterface
     }
 
     /**
-     * Set activated
+     * Set isActive.
      *
-     * @param bool $activated
-     *
-     * @return User
      */
-    public function setActivated($activated)
+    public function setIsActive($isActive)
     {
-        $this->activated = $activated;
+        $this->isActive = $isActive;
 
         return $this;
     }
 
-    /**
-     * Get activated
-     *
-     * @return bool
-     */
-    public function getActivated()
+
+    public function isAccountNonExpired()
     {
-        return $this->activated;
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        return $this->isActive;
+    }
+
+
+    // serialize and unserialize must be updated - see below
+    public function serialize()
+    {
+        return serialize(array(
+            // ...
+            $this->isActive,
+        ));
+    }
+    public function unserialize($serialized)
+    {
+        list (
+            // ...
+            $this->isActive,
+            ) = unserialize($serialized);
     }
 }

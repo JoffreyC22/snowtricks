@@ -59,7 +59,7 @@ class RegistrationController extends Controller
      */
     public function activateAction($token, Request $request, UsersGetter $usersGetter)
     {
-        $user = $usersGetter->getByToken($token);
+        $user = $usersGetter->getByTokenActivation($token);
         if (null === $user || $user->isEnabled()) {
             throw new NotFoundHttpException("Une erreur est survenue, veuillez contacter le webmaster.");
         }

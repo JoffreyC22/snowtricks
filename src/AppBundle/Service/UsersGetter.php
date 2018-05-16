@@ -53,12 +53,23 @@ class UsersGetter
         return $user;
     }
 
-    public function getByToken($token)
+    public function getByTokenActivation($token)
     {
         $em = $this->em;
         $usersRepository = $em->getRepository('AppBundle:User');
         $user = $usersRepository->findOneBy(array(
             'token_activation' => $token
+        ));
+
+        return $user;
+    }
+
+    public function getByTokenResetPassword($token)
+    {
+        $em = $this->em;
+        $usersRepository = $em->getRepository('AppBundle:User');
+        $user = $usersRepository->findOneBy(array(
+            'token_reset_password' => $token
         ));
 
         return $user;

@@ -136,6 +136,36 @@ class User implements AdvancedUserInterface
     private $token_reset_password;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_reset_password", type="datetime", nullable=true)
+     */
+    private $date_reset_password;
+
+    /**
+     * Set date expiracy token reset password
+     *
+     * @param \DateTime $date_reset_password
+     *
+     */
+    public function setDateResetPassword($date_reset_password)
+    {
+        $this->date_reset_password = $date_reset_password;
+
+        return $this;
+    }
+
+    /**
+     * Get date expiracy token reset password
+     *
+     * @return \DateTime
+     */
+    public function getDateResetPassword()
+    {
+        return $this->date_reset_password;
+    }
+
+    /**
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;

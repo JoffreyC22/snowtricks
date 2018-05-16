@@ -29,7 +29,7 @@ class ResetPasswordController extends Controller
                 'required' => true
             ))
             ->add('save', SubmitType::class, array(
-                'label' => 'Envoyer le mot de passe',
+                'label' => 'Changer mon mot de passe',
                 'attr' => array('class' => 'btn-primary')
             ));
         ;
@@ -45,7 +45,7 @@ class ResetPasswordController extends Controller
             $user = $usersGetter->getByUsername($username);
 
             if (null === $user) {
-                throw new NotFoundHttpException("Cet utilisateur n\'existe pas");
+                throw new NotFoundHttpException("Cet utilisateur n'existe pas");
             }
 
             $now = new \DateTime();
@@ -76,10 +76,14 @@ class ResetPasswordController extends Controller
     {
         $user = $usersGetter->getByTokenResetPassword($token);
         $now = new \DateTime();
-        $expiracy = $user->getDateResetPassword();
 
-        if (null === $user || $now > $expiracy) {
+        if (null === $user) {
             throw new NotFoundHttpException("Une erreur est survenue, veuillez contacter le webmaster");
+        }
+
+        $expiracy = $user->getDateResetPassword();
+        if ($now > $expiracy) {
+            throw new NotFoundHttpException("Ce lien n'est plus valide");
         }
 
         $formBuilder = $this->get('form.factory')->createBuilder();

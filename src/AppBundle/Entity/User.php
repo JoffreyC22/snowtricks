@@ -175,7 +175,6 @@ class User implements AdvancedUserInterface
         $this->roles = array("ROLE_USER");
         $this->salt = null;
         $this->token_activation = bin2hex(random_bytes(20));
-        $this->activated = false;
     }
 
 

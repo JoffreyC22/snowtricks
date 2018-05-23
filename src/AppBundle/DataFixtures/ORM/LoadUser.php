@@ -31,6 +31,7 @@ class LoadUser extends Fixture implements OrderedFixtureInterface
         $user->setUsername('joffreyc');
         $user->setSalt(null);
         $user->setRoles(array('ROLE_USER'));
+        $user->setIsActive(false);
         $user->setTokenActivation(bin2hex(random_bytes(20)));
 
         $this->addReference('joffrey', $user);

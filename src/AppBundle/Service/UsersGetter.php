@@ -31,12 +31,45 @@ class UsersGetter
         return $user;
     }
 
+    public function getByEmail($email)
+    {
+        $em = $this->em;
+        $usersRepository = $em->getRepository('AppBundle:User');
+        $user = $usersRepository->findOneBy(array(
+            'email' => $email
+        ));
+
+        return $user;
+    }
+
     public function getByUsername($username)
     {
         $em = $this->em;
         $usersRepository = $em->getRepository('AppBundle:User');
         $user = $usersRepository->findOneBy(array(
             'username' => $username
+        ));
+
+        return $user;
+    }
+
+    public function getByTokenActivation($token)
+    {
+        $em = $this->em;
+        $usersRepository = $em->getRepository('AppBundle:User');
+        $user = $usersRepository->findOneBy(array(
+            'token_activation' => $token
+        ));
+
+        return $user;
+    }
+
+    public function getByTokenResetPassword($token)
+    {
+        $em = $this->em;
+        $usersRepository = $em->getRepository('AppBundle:User');
+        $user = $usersRepository->findOneBy(array(
+            'token_reset_password' => $token
         ));
 
         return $user;

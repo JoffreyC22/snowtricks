@@ -178,11 +178,28 @@ footer{
 #image-fields-list{
   list-style-type: none;
   display:flex;
+  flex-wrap: wrap;
   li{
     padding: 10px;
   }
 }
 
+.register-container button{
+  margin: 0 auto;
+  display: block;
+}
+
+h1{
+  margin-bottom: 20px;
+}
+
+.show-medias, .show-images-edit, .trick-show-wrapper .delete-trick{
+  margin: 15px;
+}
+
+.navbar-toggle{
+  display: none;
+}
 
 /** Responsive **/
 
@@ -207,5 +224,43 @@ footer{
   .masthead,
   .cover-container {
     width: 700px;
+  }
+}
+
+@media screen and (max-width: 768px){
+  .inner .navbar-fixed-top{
+    bottom: 0;
+    top: auto;
+    border-top: 1px solid #ddd;
+  }
+
+  .inner .navbar{
+    margin-bottom: 0;
+  }
+
+  .thumbnail > img{
+    height: auto;
+  }
+
+  .jumbotron p{
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 480px){
+  .container .jumbotron{
+    padding: 15px;
+  }
+  
+  .jumbotron h2{
+    text-align: center;
+  }
+  
+  .videos-trick, .images-trick, .images-edit{
+    display: none;
+  }
+  
+  .show-medias, .show-images-edit{
+    display: block !important;
   }
 }

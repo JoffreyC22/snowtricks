@@ -21,9 +21,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <button class="btn btn-primary hidden show-medias">Montrer les médias</button>
+            <div class="row images-trick">
                 {% for image in trick.images %}
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="thumbnail">
                             <img src="/uploads/images/tricks/{{ image.getUrl }}"
                                  alt="Illustration du trick {{ trick.getName }}">
@@ -31,9 +32,9 @@
                     </div>
                 {% endfor %}
             </div>
-            <div class="row">
+            <div class="row videos-trick">
                 {% for video in trick.videos %}
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="thumbnail">
                             <iframe frameborder="0" style="height:200px;width:100%;"
                                     src="{{ video.getPath }}"></iframe>
@@ -41,24 +42,30 @@
                     </div>
                 {% endfor %}
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3 text-center">
-                    {{ form(form) }}
-                    {% for message in app.session.flashbag.get('alert-success') %}
-                        <div class="alert alert-success" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="{{ path('trickDelete', {'slug': trick.getSlug}) }}" class="btn btn-danger delete-trick" role="button">Supprimer le trick</a>
+                    </div>
                 </div>
-            </div>
-            <hr>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 text-center">
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            {{ form(form) }}
+                        {% endif %}
+                        {% include "alert-success.html.twig" %}
+                        {% include "alert-danger.html.twig" %}
+                    </div>
+                </div>
+                <hr>
+            {% endif %}
             <div class="row">
                 <div class="col-md-6 col-md-offset-3 text-center">
                     {% for comment in trick.comments %}
                         <div class="comment-container flex-container {{ (loop.index >= 10) ? 'hidden' : '' }}">
-                            <img width="50" height="50" src="{{ comment.user.getPhoto }}"
-                                 alt="Photo de profil de {{ comment.user.getUsername }}">
+                            <img width="50" height="50" src="/uploads/images/{{ comment.user.getPhoto }}"
+                                 alt="Photo {{ comment.user.getUsername }}">
                             <div class="comment-content">
                                 <p><strong>{{ comment.user.getFirstname }} {{ comment.user.getLastname }}</strong> |
                                     Publié

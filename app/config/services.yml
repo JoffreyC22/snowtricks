@@ -46,3 +46,6 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postRemove }
         arguments: [ '@service_container' ]
+
+    AppBundle\Service\MailSender:
+        arguments: [ '@mailer', '@templating' ]

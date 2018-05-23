@@ -9,8 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class HandleMedias
 {
-    public static function handleImages(Request $request, UsersGetter $usersGetter, FileUploader $fileUploader, Trick $trick)
+    public static function handleImages(Request $request, UsersGetter $usersGetter, FileUploader $fileUploader, Trick $trick, $currentUser)
     {
+        $user = $usersGetter->getByUsername($currentUser->getUsername());
         $images = $request->files->get('trick')['images']; /* Traitement images */
         if (empty($images)) return false;
         foreach ($images as $key => $file) {
@@ -18,8 +19,7 @@ class HandleMedias
             if ($filename) {
                 $image = new Image();
                 $image->setUrl($filename);
-                $image->setUser($usersGetter->getByUsername('joffreyc'));
-                /** For now **/
+                $image->setUser($user);
                 $trick->addImage($image);
             } else {
                 return false;
@@ -29,8 +29,9 @@ class HandleMedias
         return true;
     }
 
-    public static function handleVideos(Request $request, UsersGetter $usersGetter, Trick $trick)
+    public static function handleVideos(Request $request, UsersGetter $usersGetter, Trick $trick, $currentUser)
     {
+        $user = $usersGetter->getByUsername($currentUser->getUsername());
         $videos = $request->request->get('trick')['videos'];
         if (empty($videos)) return false;
         foreach ($videos as $video) {
@@ -38,8 +39,7 @@ class HandleMedias
             if (filter_var($embed, FILTER_VALIDATE_URL)) {
                 $instanceVideo = new Video();
                 $instanceVideo->setPath($embed);
-                $instanceVideo->setUser($usersGetter->getByUsername('joffreyc'));
-                /** For now **/
+                $instanceVideo->setUser($user);
                 $trick->addVideo($instanceVideo);
             } else {
                 return false;

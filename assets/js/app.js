@@ -19,7 +19,6 @@ $(document).ready(function() {
     function loadMoreItems(entity) {
         $("#load-more-"+entity).click(function() {
            var items = $('.'+entity+'-container');
-           console.log(items);
             $(items).each(function() {
                 if ($(this).hasClass('hidden')){
                     $(this).removeClass('hidden');
@@ -43,6 +42,21 @@ $(document).ready(function() {
     $('#back-top').click(function() {
         scrollTopPage();
     });
+
+    function showMediasButton() {
+        $('.show-medias').click(function(e){
+            e.preventDefault();
+            $('.videos-trick').fadeIn();
+            $('.images-trick').fadeIn();
+        });
+    }
+
+    function showImagesEdit() {
+        $('.show-images-edit').click(function(e){
+            e.preventDefault();
+            $('.images-edit').fadeIn();
+        });
+    }
 
     function addAnotherItem(clicked) {
         $('.'+clicked).click(function (e) {
@@ -75,6 +89,8 @@ $(document).ready(function() {
     confirmDelete();
     addAnotherItem('add-another-collection-widget');
     addAnotherItem('add-another-collection-widget-video');
+    showMediasButton();
+    showImagesEdit();
     window.onscroll = function() {scrollFunction()};
 
 });

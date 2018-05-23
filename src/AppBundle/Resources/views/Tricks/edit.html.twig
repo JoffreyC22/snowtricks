@@ -9,16 +9,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2>Editer une figure</h2>
-                    {% for message in app.session.flashbag.get('alert-success') %}
-                        <div class="alert alert-success" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                    {% for message in app.session.flashbag.get('alert-danger') %}
-                        <div class="alert alert-danger" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
+                    {% include "alert-success.html.twig" %}
+                    {% include "alert-danger.html.twig" %}
                 </div>
             </div>
             <div class="row">
@@ -34,6 +26,10 @@
                     {{ form_row(form.category) }}
 
                     <div class="form-group">
+                        <button class="btn btn-primary hidden show-images-edit">Montrer les images</button>
+                    </div>
+
+                    <div class="form-group images-edit">
                         {{ form_label(form.images, "Images") }}
                         {{ form_errors(form.images) }}
                         <ul id="image-fields-list"
@@ -78,6 +74,13 @@
                     {{ form_end(form) }}
                 </div>
             </div>
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="{{ path('trickDelete', {'slug': trick.getSlug}) }}" class="btn btn-danger delete-trick" role="button">Supprimer le trick</a>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 
